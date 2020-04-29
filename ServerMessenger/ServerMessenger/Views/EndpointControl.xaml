@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="ServerMessenger.Views.EndpointControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ServerMessenger.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" Margin="5">
+            <Label Content="NetworkInterfaces"></Label>
+            <ListBox MaxHeight="300" MaxWidth="300"
+                         ItemsSource="{Binding Endpoints}" 
+                         SelectedItem="{Binding Path=Endpoint}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="18" Text="{Binding Path=Name}"></TextBlock>
+                            <TextBlock Text="{Binding Path=Description}"></TextBlock>
+                            <TextBlock Text="{Binding Path=NetworkInterfaceType}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" DataContext="{Binding EndpointData}">
+            <StackPanel Margin="5">
+                <Label Content="Ip"></Label>
+                <TextBox Text="{Binding Path=Ip, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                     IsReadOnly="True"
+                     Width="100"
+                     Height="20"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="Port"></Label>
+                <TextBox Text="{Binding Path=Port, UpdateSourceTrigger=PropertyChanged}"
+                     Width="100"
+                     Height="20"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="ServerName"></Label>
+                <TextBox Text="{Binding Path=ServerName, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="100"
+                     Height="20"></TextBox>
+            </StackPanel>
+        </StackPanel>
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Width="100" Grid.Row="1" Margin="5" Content="Create" Command="{Binding Create}"></Button>
+    </Grid>
+</UserControl>

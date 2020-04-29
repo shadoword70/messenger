@@ -1,0 +1,60 @@
+﻿<Window x:Class="ClientMessenger.Views.MessengerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientMessenger.Views"
+        mc:Ignorable="d"
+        Title="MessengerWindow" Height="490" Width="650">
+    <StackPanel Height="Auto" Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="18" Content="{Binding NickName}"></Label>
+            <Button Grid.Column="1" Height="30" Width="100" HorizontalAlignment="Right" Content="Disconnect" Command="{Binding Disconnect}"></Button>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SendToUser}" Height="350">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="5" Text="{Binding}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Column="1">
+                <ListBox Height="250" Width="500" ItemsSource="{Binding MessengerModels}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="13" Grid.Column="0" Text="{Binding Path=Date}"></TextBlock>
+                                <TextBlock FontSize="13" Padding="5 0 5 0" Grid.Column="1" Text="|"></TextBlock>
+                                <TextBlock FontSize="13" Grid.Column="2" Text="{Binding Path=Nick}"></TextBlock>
+                                <TextBlock FontSize="13" Padding="0 0 5 0" Grid.Column="3" Text=":"></TextBlock>
+                                <TextBlock FontSize="13" Grid.Column="4" Text="{Binding Path=Message}"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBox Height="100" Width="500" Text="{Binding NewMessage, UpdateSourceTrigger=PropertyChanged}" Margin="20" TextWrapping="Wrap">
+                    <TextBox.InputBindings>
+                        <!--<KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding NewLine}"></KeyBinding>-->
+                        <KeyBinding Key="Enter" Command="{Binding SendMessage}"></KeyBinding>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Window>

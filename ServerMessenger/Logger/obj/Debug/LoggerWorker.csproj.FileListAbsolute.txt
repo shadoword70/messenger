@@ -1,0 +1,9 @@
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\bin\Debug\LoggerWorker.dll
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\bin\Debug\LoggerWorker.pdb
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\bin\Debug\NLog.dll
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\bin\Debug\NLog.xml
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\obj\Debug\LoggerWorker.csprojAssemblyReference.cache
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\obj\Debug\LoggerWorker.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\obj\Debug\LoggerWorker.csproj.CopyComplete
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\obj\Debug\LoggerWorker.dll
+C:\Users\maxwo\source\repos\ServerMessenger\Logger\obj\Debug\LoggerWorker.pdb

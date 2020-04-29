@@ -1,0 +1,7 @@
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\bin\Release\WcfService.dll.config
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\bin\Release\WcfService.dll
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\bin\Release\WcfService.pdb
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Release\WcfService.csprojAssemblyReference.cache
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Release\WcfService.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Release\WcfService.dll
+C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Release\WcfService.pdb
