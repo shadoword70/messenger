@@ -1,0 +1,9 @@
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Release\ServiceWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Release\ServiceWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Release\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Release\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Release\ServiceWorker.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Release\ServiceWorker.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Release\ServiceWorker.csproj.CopyComplete
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Release\ServiceWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Release\ServiceWorker.pdb

@@ -48,9 +48,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <TextBox Height="100" Width="500" Text="{Binding NewMessage, UpdateSourceTrigger=PropertyChanged}" Margin="20" TextWrapping="Wrap">
+                <TextBox x:Name="InputMessageBox" Height="100" Width="500" Text="{Binding NewMessage, UpdateSourceTrigger=PropertyChanged}" Margin="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto">
                     <TextBox.InputBindings>
-                        <!--<KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding NewLine}"></KeyBinding>-->
+                        <KeyBinding Modifiers="Shift" Key="Enter" Command="{Binding NewLine}" CommandParameter="{Binding ElementName=InputMessageBox}"></KeyBinding>
                         <KeyBinding Key="Enter" Command="{Binding SendMessage}"></KeyBinding>
                     </TextBox.InputBindings>
                 </TextBox>

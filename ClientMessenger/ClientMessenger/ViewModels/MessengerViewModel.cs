@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using ClientMessenger.Annotations;
@@ -52,6 +53,7 @@ namespace ClientMessenger.ViewModels
             set
             {
                 _sendToUser = value;
+                MessengerModels.Clear();
                 OnPropertyChanged("SendToUser");
             }
         }
@@ -180,8 +182,13 @@ namespace ClientMessenger.ViewModels
             {
                 return _newLine ?? (_newLine = new BaseButtonCommand((obj) =>
                 {
-                    NewMessage += Environment.NewLine;
-                    CaretPosition = NewMessage.Length;
+                    if (obj is TextBox)
+                    {
+                        var inputMessageBox = (TextBox)obj;
+                        inputMessageBox.AppendText(Environment.NewLine);
+                        inputMessageBox.CaretIndex = inputMessageBox.Text.Length;
+                    }
+                    
                 }));
             }
         }

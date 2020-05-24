@@ -1,0 +1,12 @@
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\WcfService.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\WcfService.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\WcfService.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\LoggerWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\LoggerWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.csproj.CopyComplete
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.pdb

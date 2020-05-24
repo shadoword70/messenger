@@ -4,3 +4,9 @@ C:\Users\maxwo\source\repos\Common\obj\Debug\Common.csprojAssemblyReference.cach
 C:\Users\maxwo\source\repos\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Users\maxwo\source\repos\Common\obj\Debug\Common.dll
 C:\Users\maxwo\source\repos\Common\obj\Debug\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\bin\Debug\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\bin\Debug\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Debug\Common.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Debug\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Debug\Common.pdb

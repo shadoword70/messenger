@@ -10,3 +10,15 @@ C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Debug\WcfService.cspr
 C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Debug\WcfService.csproj.CopyComplete
 C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Debug\WcfService.dll
 C:\Users\maxwo\source\repos\ServerMessenger\WcfService\obj\Debug\WcfService.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\WcfService.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\WcfService.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\WcfService.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\LoggerWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Debug\LoggerWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Debug\WcfService.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Debug\WcfService.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Debug\WcfService.csproj.CopyComplete
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Debug\WcfService.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Debug\WcfService.pdb
