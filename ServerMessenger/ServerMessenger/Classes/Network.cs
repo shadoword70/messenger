@@ -17,8 +17,11 @@ namespace ServerMessenger.Classes
             try
             {
                 IPGlobalProperties computerProperties = IPGlobalProperties.GetIPGlobalProperties();
-                List<NetworkInterface> nics = NetworkInterface.GetAllNetworkInterfaces()
-                    .Where(x => x.NetworkInterfaceType == NetworkInterfaceType.Ethernet).ToList();
+                List<NetworkInterface> nics = NetworkInterface.GetAllNetworkInterfaces().Where(x => 
+                (x.NetworkInterfaceType == NetworkInterfaceType.Ethernet 
+                || x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+                && x.Supports(NetworkInterfaceComponent.IPv4)
+                && x.OperationalStatus == OperationalStatus.Up).ToList();
                 
                 logger.Write(LogLevel.Info, "Interface information for " + computerProperties.HostName + "." + computerProperties.DomainName);
                 if (!nics.Any())
