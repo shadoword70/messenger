@@ -65,7 +65,6 @@ namespace WcfService
             }
             catch (Exception e)
             {
-                _logger.Write(LogLevel.Error, "Не удалось создать хостинг", e);
                 throw;
             }
         }
@@ -92,18 +91,35 @@ namespace WcfService
 
         public void StartService()
         {
-            _logger.Write(LogLevel.Info, "Server start");
-            _host?.Close();
+            try
+            {
+                _logger.Write(LogLevel.Info, "Server start");
+                _host?.Close();
 
-            CreateHost();
-            _host?.Open();
+                CreateHost();
+                _host?.Open();
+            }
+            catch(Exception ex)
+            {
+                _logger.Write(LogLevel.Error, "Не удалось создать хостинг", ex);
+                StopService();
+            }
+            
         }
 
         public void StopService()
         {
-            _logger.Write(LogLevel.Info, "Server stop");
-            _host?.Close();
-            _host = null;
+            try
+            {
+                _logger.Write(LogLevel.Info, "Server stop");
+                _host?.Close();
+                _host = null;
+            }
+            catch (Exception ex)
+            {
+                _logger.Write(LogLevel.Error, "", ex);
+                StopService();
+            }
         }
     }
 }
