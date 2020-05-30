@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfService", "WcfService\WcfService.csproj", "{3EEFD3C3-433B-40F2-B8BF-871C5FE522E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbWorker", "DbWorker\DbWorker.csproj", "{1089EE4F-CA0D-44C9-97C7-48270B7AE502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3EEFD3C3-433B-40F2-B8BF-871C5FE522E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EEFD3C3-433B-40F2-B8BF-871C5FE522E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EEFD3C3-433B-40F2-B8BF-871C5FE522E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1089EE4F-CA0D-44C9-97C7-48270B7AE502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1089EE4F-CA0D-44C9-97C7-48270B7AE502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1089EE4F-CA0D-44C9-97C7-48270B7AE502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1089EE4F-CA0D-44C9-97C7-48270B7AE502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

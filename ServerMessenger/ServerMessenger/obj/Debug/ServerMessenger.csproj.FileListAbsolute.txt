@@ -56,3 +56,13 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\ServerMessenger.csproj.CopyComplete
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\ServerMessenger.exe
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\ServerMessenger.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\DbWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\EntityFramework.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\DbWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\DbWorker.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\EntityFramework.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Styles\BaseStyle.baml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Windows\AddEmployeeWindow.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Windows\AddEmployeeWindow.baml

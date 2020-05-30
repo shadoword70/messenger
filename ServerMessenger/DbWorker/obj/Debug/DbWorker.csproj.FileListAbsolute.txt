@@ -1,0 +1,14 @@
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\DbWorker.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\DbWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\DbWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\EntityFramework.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\EntityFramework.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.Migrations.InitialCreate.resources
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.GenerateResource.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.CopyComplete
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.pdb

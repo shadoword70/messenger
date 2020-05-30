@@ -11,6 +11,7 @@ using ServerMessenger.Annotations;
 using ServerMessenger.Comands;
 using ServerMessenger.Helpers;
 using ServerMessenger.Models;
+using ServerMessenger.Windows;
 using WcfService;
 
 namespace ServerMessenger.ViewModels
@@ -63,6 +64,18 @@ namespace ServerMessenger.ViewModels
                     var manager = DIFactory.Resolve<IServiceManager>();
                     manager.StopService();
                     _changeScreen();
+                }));
+            }
+        }
+        private ICommand _addEmployee;
+        public ICommand AddEmployee
+        {
+            get
+            {
+                return _addEmployee ?? (_addEmployee = new BaseButtonCommand((obj) =>
+                {
+                    var addEmployeeWindow = new AddEmployeeWindow(new AddEmployeeViewModel());
+                    var isShow = addEmployeeWindow.ShowDialog();
                 }));
             }
         }

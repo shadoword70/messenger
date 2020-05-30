@@ -8,6 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <TextBox Height="300" Width="550" Margin="5" IsReadOnly="True" Text="{Binding Text, Mode=TwoWay}" VerticalScrollBarVisibility="Auto"></TextBox>
-        <Button Width="100" Margin="5" Content="Stop" Command="{Binding Stop}"></Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="100" Margin="5" Content="Stop" Command="{Binding Stop}"></Button>
+            <Button Width="100" Margin="5" Content="Add Employee" Command="{Binding AddEmployee}"></Button>
+        </StackPanel>
     </StackPanel>
 </UserControl>

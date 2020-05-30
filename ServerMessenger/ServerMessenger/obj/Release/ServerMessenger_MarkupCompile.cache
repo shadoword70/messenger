@@ -10,11 +10,11 @@ none
 false
 TRACE
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\App.xaml
-31780306881
+51155097104
 
-211730443775
-20-480421036
-MainWindow.xaml;Views\EndpointControl.xaml;Views\ViewLogControl.xaml;
+24-608199099
+25-1081625815
+MainWindow.xaml;Styles\BaseStyle.xaml;Views\EndpointControl.xaml;Views\ViewLogControl.xaml;Windows\AddEmployeeWindow.xaml;
 
 False
 

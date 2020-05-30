@@ -12,7 +12,7 @@ using LoggerWorker;
 
 namespace WcfService
 {
-    public class ServiceManager : /*ServiceBase,*/ IServiceManager
+    public class ServiceManager : IServiceManager
     {
         private ServiceHost _host;
         private ILogger _logger;
@@ -27,23 +27,6 @@ namespace WcfService
             _port = port;
             _serverName = serverName;
         }
-
-        //protected override void OnStart(string[] args)
-        //{
-        //    _host?.Close();
-
-        //    CreateHost();
-        //    _host.Open();
-        //}
-
-        //protected override void OnStop()
-        //{
-        //    if (_host != null)
-        //    {
-        //        _host.Close();
-        //        _host = null;
-        //    }
-        //}
 
         private void CreateHost()
         {
@@ -65,28 +48,28 @@ namespace WcfService
             }
             catch (Exception e)
             {
-                throw;
+                _logger.Write(LogLevel.Error, "CreateHost: ", e);
             }
         }
 
         private void HostOnUnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)
         {
-            _logger.Write(LogLevel.Error, sender.ToString() + Environment.NewLine + e.Message);
+            _logger.Write(LogLevel.Error, sender.ToString() + ": " + e.Message);
         }
 
         private void HostOnFaulted(object sender, EventArgs e)
         {
-            _logger.Write(LogLevel.Error, sender.ToString() + Environment.NewLine + "Communication faulted");
+            _logger.Write(LogLevel.Error, sender.ToString() + ": Communication faulted");
         }
 
         private void HostOnClosed(object sender, EventArgs e)
         {
-            _logger.Write(LogLevel.Info, sender.ToString() + Environment.NewLine + "Communication closed");
+            _logger.Write(LogLevel.Info, sender.ToString() + ": Communication closed");
         }
 
         private void HostOnOpened(object sender, EventArgs e)
         {
-            _logger.Write(LogLevel.Info, sender.ToString() + Environment.NewLine + "Communication opened");
+            _logger.Write(LogLevel.Info, sender.ToString() + ": Communication opened");
         }
 
         public void StartService()

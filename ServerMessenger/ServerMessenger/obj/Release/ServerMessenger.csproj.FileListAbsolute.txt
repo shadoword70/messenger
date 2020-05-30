@@ -49,3 +49,13 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\ServerMessenger.csproj.CopyComplete
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\ServerMessenger.exe
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\ServerMessenger.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\DbWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\EntityFramework.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\DbWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\DbWorker.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\EntityFramework.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\Windows\AddEmployeeWindow.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\Windows\AddEmployeeWindow.baml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\Styles\BaseStyle.baml
