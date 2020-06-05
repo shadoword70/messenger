@@ -18,21 +18,25 @@ namespace DbWorker.DbElements
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Guid { get; set; }
+        
+        [ForeignKey("Chat")]
         public Guid ChatGuid { get; set; }
-        [ForeignKey("ChatGuid")]
-        public virtual ICollection<Chat> Chats { get; set; }
+
+        public virtual Chat Chat { get; set; }
+        
         public Guid UserGuid { get; set; }
+
         [ForeignKey("UserGuid")]
-        public virtual ICollection<User> Users { get; set; }
-        public string Contect { get; set; }
+        public virtual User User { get; set; }
+       
+        public string Content { get; set; }
+        
         public DateTime DateCreate { get; set; }
-        public Guid MessageStatusGuid { get; set; }
-        [ForeignKey("MessageStatusGuid")]
-        public virtual MessageStatus MessageStatus { get; set; }
+
+        public virtual ICollection<MessageStatus> MessageStatuses { get; set; }
         public Message()
         {
-            Chats = new List<Chat>();
-            Users = new List<User>();
+            MessageStatuses = new List<MessageStatus>();
         }
     }
 }

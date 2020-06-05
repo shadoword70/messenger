@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\
+C:\Users\maxwo\source\repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\
 ClientMessenger
 none
 false
 TRACE
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\App.xaml
+C:\Users\maxwo\source\repos\shadoword70\messenger\ClientMessenger\ClientMessenger\App.xaml
 4160511672
 
 221814476782
-161302391654
+161524172248
 MainWindow.xaml;Views\ConnectControl.xaml;Views\MessengerWindow.xaml;Views\RegistrationControl.xaml;
 
-False
+True
 

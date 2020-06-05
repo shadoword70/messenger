@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using DbWorker;
 using LoggerWorker;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
 using Ninject.Parameters;
+using ServerMessenger.Classes;
 using ServerMessenger.Configuration;
 using WcfService;
 
@@ -74,6 +76,8 @@ namespace ServerMessenger.Helpers
                 .WithConstructorArgument(typeof(string))
                 .WithConstructorArgument(typeof(string))
                 .WithConstructorArgument(typeof(string));
+            Bind<IDbSystemWorker>().To<DbSystemWorker>().InSingletonScope();
+            Bind<ISystemWorker>().To<SystemWorker>().InSingletonScope();
         }
 
         private ILogger GetLogger(IContext arg)
@@ -81,7 +85,7 @@ namespace ServerMessenger.Helpers
             System.Configuration.Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             LogsSettingsConfigurationSection section = (LogsSettingsConfigurationSection)cfg.Sections["LogSettings"];
 
-            var path = Setting.LogPath;
+            var path = Settings.LogPath;
             Logger logger;
             if (section.LoggerItems.Count == 1)
             {

@@ -66,3 +66,10 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Styles\BaseStyle.baml
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Windows\AddEmployeeWindow.g.cs
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\Windows\AddEmployeeWindow.baml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\ServerMessenger_Content.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\SendData\body.html
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\SendData\logo.svg
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\SendData\logo.png
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\FontAwesome.WPF.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\FontAwesome.WPF.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\GeneratedInternalTypeHelper.g.cs

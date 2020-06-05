@@ -16,17 +16,14 @@ namespace DbWorker.DbElements
     public class Party
     {
         [Key]
+        [Column(Order = 1)]
+        [ForeignKey("Chat")]
         public Guid ChatGuid { get; set; }
-        [ForeignKey("ChatGuid")]
-        public virtual ICollection<Chat> Chats { get; set; }
+        
+        public virtual Chat Chat { get; set; }
+        
+        [Key]
+        [Column(Order = 2)]
         public Guid UserGuid { get; set; }
-        [ForeignKey("UserGuid")]
-        public virtual ICollection<User> Users { get; set; }
-
-        public Party()
-        {
-            Chats = new List<Chat>();
-            Users = new List<User>();
-        }
     }
 }

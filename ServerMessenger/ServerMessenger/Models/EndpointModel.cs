@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -11,10 +12,10 @@ using ServerMessenger.Annotations;
 
 namespace ServerMessenger.Models
 {
-    public class EndpointModel : INotifyPropertyChanged
+    public class EndpointModel : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int? _port;
-        public int? Port
+        private string _port;
+        public string Port
         {
             get { return _port; }
             set
@@ -74,5 +75,40 @@ namespace ServerMessenger.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Port":
+                    {
+                        if (String.IsNullOrEmpty(Port))
+                        {
+                            error = "Порт не может быть пустым";
+                        }
+
+                        int port;
+                        if (!int.TryParse(Port, out port))
+                        {
+                            error = "Порт должен состоять из цифр";
+                        }
+
+                        if (port < 0 || port > 65536)
+                        {
+                            error = "Порт должен находиться в диапазоне от 0 до 65536";
+                        }
+
+                        break;
+                    }
+                }
+
+                return error;
+            }
+        }
+
+        public string Error { get; }
     }
 }

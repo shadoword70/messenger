@@ -41,9 +41,17 @@
             </StackPanel>
             <StackPanel Margin="5">
                 <Label Content="Port"></Label>
-                <TextBox Text="{Binding Path=Port, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox
                      Width="100"
-                     Height="20"></TextBox>
+                     Height="20">
+                    <TextBox.Text>
+                        <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Margin="5">
                 <Label Content="ServerName"></Label>

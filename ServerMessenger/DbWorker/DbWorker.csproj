@@ -56,23 +56,32 @@
     <Compile Include="DbElements\MessageStatus.cs" />
     <Compile Include="DbElements\Party.cs" />
     <Compile Include="DbElements\Chat.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="MessengerContext.cs" />
-    <Compile Include="Migrations\202005300951230_InitialCreate.cs" />
-    <Compile Include="Migrations\202005300951230_InitialCreate.designer.cs">
-      <DependentUpon>202005300951230_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202005311059492_InitialCreate.cs" />
+    <Compile Include="Migrations\202005311059492_InitialCreate.designer.cs">
+      <DependentUpon>202005311059492_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbElements\User.cs" />
+    <Compile Include="IWorker.cs" />
+    <Compile Include="DbWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005300951230_InitialCreate.resx">
-      <DependentUpon>202005300951230_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005311059492_InitialCreate.resx">
+      <DependentUpon>202005311059492_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj">
+      <Project>{0AEDBDE3-7775-40BD-90F9-D2534EF93144}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

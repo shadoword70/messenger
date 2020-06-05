@@ -16,18 +16,17 @@ namespace DbWorker.DbElements
     public class MessageStatus
     {
         [Key]
+        [Column(Order = 1)]
+        [ForeignKey("Message")]
         public Guid MessageGuid { get; set; }
-        [ForeignKey("MessageGuid")]
-        public virtual ICollection<Message> Messages { get; set; }
-        public Guid UserGuid { get; set; }
-        [ForeignKey("UserGuid")]
-        public virtual ICollection<User> Users { get; set; }
-        public bool IsRead { get; set; }
 
-        public MessageStatus()
-        {
-            Messages = new List<Message>();
-            Users = new List<User>();
-        }
+        public virtual Message Message { get; set; }
+        
+        [Key]
+        [Column(Order = 2)]
+        public Guid UserGuid { get; set; }
+        
+        
+        public bool IsRead { get; set; }
     }
 }

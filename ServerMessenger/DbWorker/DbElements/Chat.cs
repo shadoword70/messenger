@@ -19,20 +19,11 @@ namespace DbWorker.DbElements
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Guid { get; set; }
+        
         [Required]
         public string Name { get; set; }
+
+        [Required]
         public Guid UserGuid { get; set; }
-        [ForeignKey("UserGuid")]
-        public virtual ICollection<User> Users { get; set; }
-        public Guid PartyGuid { get; set; }
-        [ForeignKey("PartyGuid")]
-        public virtual Party Party { get; set; }
-        public Guid MessageGuid { get; set; }
-        [ForeignKey("MessageGuid")]
-        public virtual Message Message { get; set; }
-        public Chat()
-        {
-            Users = new List<User>();
-        }
     }
 }

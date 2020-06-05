@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ServerMessenger.Windows"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:converters="clr-namespace:ServerMessenger.Converters"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="AddEmployeeWindow" Height="400" Width="400" ResizeMode="NoResize">
+        Title="Добавить сотрудника" Height="400" Width="400" ResizeMode="NoResize" x:Name="EmployeeWindow">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,43 +16,107 @@
             <Style TargetType="TextBlock">
                 <Setter Property="Width" Value="100"></Setter>
             </Style>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </Window.Resources>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Фамилия"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Surname}"></TextBox>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" DataContext="{Binding Model}">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Фамилия"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Имя"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Отчетсво"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Patronymic" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Пол"></TextBlock>
+                    <ComboBox Width="100" ItemsSource="{Binding GenderCollection}" SelectedItem="{Binding Gender}"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Дата рождения"></TextBlock>
+                    <DatePicker Width="200" IsTodayHighlighted="True" SelectedDateFormat="Short" SelectedDate="{Binding DateOfBirth}"></DatePicker>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Должность"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Position" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Email"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Login"></TextBlock>
+                    <TextBox Style="{StaticResource BaseTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="Login" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </StackPanel>
+            <Button Width="100" Content="Add Employee" VerticalAlignment="Bottom" Command="{Binding AddEmployee}" CommandParameter="{Binding ElementName=EmployeeWindow}" Margin="0 90 0 0">
+            </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Имя"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Name}"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Фамилия"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Surname}"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Отчетсво"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Patronymic}"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Дата рождения"></TextBlock>
-            <DatePicker Width="200" IsTodayHighlighted="True" SelectedDateFormat="Short"
-                 Text="{Binding DateOfBirth}"></DatePicker>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Фамилия"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Surname}"></TextBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Фамилия"></TextBlock>
-            <TextBox Style="{StaticResource BaseTextBox}"
-                 Text="{Binding Surname}"></TextBox>
-        </StackPanel>
-    </StackPanel>    
+        <Grid Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Background="Gray" Opacity="0.6"></StackPanel>
+            <fa:ImageAwesome Icon="Refresh" Spin="True" SpinDuration="3" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Grid>
+    </Grid>
+    
 </Window>

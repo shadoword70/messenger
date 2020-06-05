@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using LoggerWorker;
 using ServerMessenger.Annotations;
-using ServerMessenger.Comands;
+using ServerMessenger.Commands;
 using ServerMessenger.Helpers;
 using ServerMessenger.Models;
 using ServerMessenger.Windows;
@@ -75,7 +75,15 @@ namespace ServerMessenger.ViewModels
                 return _addEmployee ?? (_addEmployee = new BaseButtonCommand((obj) =>
                 {
                     var addEmployeeWindow = new AddEmployeeWindow(new AddEmployeeViewModel());
-                    var isShow = addEmployeeWindow.ShowDialog();
+                    try
+                    {
+                        var isShow = addEmployeeWindow.ShowDialog();
+                    }
+                    catch (Exception e)
+                    {
+                        var logger = DIFactory.Resolve<ILogger>();
+                        logger.Write(LogLevel.Error, e.Message, e);
+                    }
                 }));
             }
         }
