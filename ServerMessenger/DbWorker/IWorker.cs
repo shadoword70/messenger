@@ -11,5 +11,6 @@ namespace DbWorker
     {
         Task<string> AddEmployee(Employee employee);
         Task RemoveEmployee(Employee employee);
+        Task<Employee> GetEmployee(string login, string password);
     }
 }

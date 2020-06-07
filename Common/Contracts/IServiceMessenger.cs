@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
+using Common.Results;
 
 namespace Common.Contracts
 {
@@ -8,7 +10,7 @@ namespace Common.Contracts
     public interface IServiceMessenger
     {
         [OperationContract]
-        ResultBody RegistrationClient(string name);
+        Task<AuthorizationResult> AuthorizationClient(string login, string password);
 
         [OperationContract]
         ResultBody DisconnectClient(string name);
@@ -17,6 +19,7 @@ namespace Common.Contracts
         void SendMessage(string name, string message);
     }
 
+    [ServiceContract]
     public interface IServiceMessengerCallback
     {
         [OperationContract(IsOneWay = true)]

@@ -1,0 +1,9 @@
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\bin\Debug\ServerHelper.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\bin\Debug\ServerHelper.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\bin\Debug\Ninject.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\bin\Debug\Ninject.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\obj\Debug\ServerHelper.csprojAssemblyReference.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\obj\Debug\ServerHelper.csproj.CoreCompileInputs.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\obj\Debug\ServerHelper.csproj.CopyComplete
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\obj\Debug\ServerHelper.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerHelper\obj\Debug\ServerHelper.pdb

@@ -37,6 +37,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo %282%29.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -76,15 +79,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Network.cs" />
-    <Compile Include="Classes\ISystemWorker.cs" />
-    <Compile Include="Classes\SystemWorker.cs" />
     <Compile Include="Commands\BaseButtonCommand.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Configuration\LoggerElement.cs" />
     <Compile Include="Configuration\LoggersCollection.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
-    <Compile Include="Helpers\DIFactory.cs" />
     <Compile Include="Configuration\LogsSettingsConfigurationSection.cs" />
+    <Compile Include="Helpers\Bindings.cs" />
     <Compile Include="Models\AddEmployeeModel.cs" />
     <Compile Include="Models\ViewLogModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -163,6 +164,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="logo %282%29.ico" />
     <Content Include="SendData\body.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -178,13 +180,13 @@
       <Project>{0aedbde3-7775-40bd-90f9-d2534ef93144}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DbWorker\DbWorker.csproj">
-      <Project>{1089ee4f-ca0d-44c9-97c7-48270b7ae502}</Project>
-      <Name>DbWorker</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logger\LoggerWorker.csproj">
       <Project>{39db3a15-94d8-48f5-bbd0-2c9b0b01a470}</Project>
       <Name>LoggerWorker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerHelper\ServerHelper.csproj">
+      <Project>{93a884d8-f0af-4684-96c4-e4f40d3f181a}</Project>
+      <Name>ServerHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\WcfService\WcfService.csproj">
       <Project>{3EEFD3C3-433B-40F2-B8BF-871C5FE522E6}</Project>

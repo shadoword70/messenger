@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using ClientMessenger.ViewModels;
+﻿using ClientMessenger.ViewModels;
+using System.Windows.Controls;
 
 namespace ClientMessenger.Views
 {

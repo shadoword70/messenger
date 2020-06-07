@@ -1,7 +1,4 @@
-﻿using System;
-using Common.Contracts;
-using Ninject;
-using Ninject.Activation;
+﻿using Ninject;
 using Ninject.Modules;
 using Ninject.Parameters;
 using ServiceWorker;

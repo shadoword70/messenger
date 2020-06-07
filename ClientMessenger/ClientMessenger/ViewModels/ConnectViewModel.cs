@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using ClientMessenger.Commands;
+﻿using ClientMessenger.Commands;
 using ClientMessenger.Helpers;
 using ClientMessenger.Models;
 using ClientMessenger.Properties;
 using Ninject.Parameters;
 using ServiceWorker;
+using System;
+using System.ComponentModel;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace ClientMessenger.ViewModels
 {
@@ -50,7 +50,7 @@ namespace ClientMessenger.ViewModels
                 return _connect ?? (_connect = new BaseButtonCommand((obj) =>
                 {
                     var callback = DIFactory.Resolve<IMessageCallback>();
-                    IParameter[] parameters = new Parameter[]
+                    IParameter[] parameters =
                     {
                         new ConstructorArgument("ip", ConnectData.Ip, false),
                         new ConstructorArgument("port", ConnectData.Port, false),
@@ -59,6 +59,47 @@ namespace ClientMessenger.ViewModels
                     DIFactory.Resolve<IServiceManager>(parameters);
                     _changeScreen();
                 }, (obj) => CanExecuteConnect()));
+            }
+        }
+
+        private ICommand _loadedCommand;
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return _loadedCommand ?? (_loadedCommand = new BaseButtonCommand((obj) =>
+                {
+                    var address = Settings.WCFServerIP;
+                    if (address == null)
+                    {
+                        return;
+                    }
+                    if (address.EndsWith("\""))
+                    {
+                        address = address.TrimEnd('\"');
+                    }
+
+                    var data = address.Split(':');
+                    if (data.Length != 2)
+                    {
+                        return;
+                    }
+
+                    ConnectData.Ip = data[0];
+                    ConnectData.Port = data[1];
+                    if (CanExecuteConnect())
+                    {
+                        if (Connect.CanExecute(null))
+                        {
+                            Connect.Execute(null);
+                        }
+                    }
+                    else
+                    {
+                        ConnectData.Ip = String.Empty;
+                        ConnectData.Port = String.Empty;
+                    }
+                }));
             }
         }
 

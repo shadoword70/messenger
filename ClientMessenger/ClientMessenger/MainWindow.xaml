@@ -5,6 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientMessenger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="300">
+        Title="Messenger" Height="200" Width="300" MinWidth="250" 
+        WindowStartupLocation="CenterScreen" 
+        Style="{StaticResource CustomWindow}">
+
+    <!--Add the WindowChrome object-->
+    <!--<WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" />
+    </WindowChrome.WindowChrome>-->
+
+    <!--Title bar button commands-->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
     <ContentControl Content="{Binding Control}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    <!--<Border x:Name="MainWindowBorder" BorderBrush="Black" BorderThickness="0.1" CornerRadius="10">
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="Auto"/>
+                <RowDefinition Height ="*"/>
+            </Grid.RowDefinitions>
+            --><!--Window chrome--><!--
+            <Grid Grid.Row="0" Height="30" Background="Black">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    --><!--App icon--><!--
+                    <Image Source="Images/logo.png" Width="18" Margin="5 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock Text="Messenger" FontFamily="Arial" Margin="5 0 0 0" VerticalAlignment="Center" Foreground="White"/>
+                </StackPanel>
+
+                --><!--Caption buttons--><!--
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
+                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+                    <Button x:Name="RestoreButton" Visibility="Collapsed" Style="{StaticResource RestoreButtonStyle}" 
+                            Command="{x:Static SystemCommands.RestoreWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Restore"/>
+                    <Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
+                            Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />
+                    <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
+                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            --><!--App content--><!--
+            <Grid Grid.Row="1">
+                <ContentControl Content="{Binding Control}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </Border>-->
 </Window>

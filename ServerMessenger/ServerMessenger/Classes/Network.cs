@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using LoggerWorker;
+using ServerHelper;
 using ServerMessenger.Helpers;
 
 namespace ServerMessenger.Classes

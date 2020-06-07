@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using ClientMessenger.Annotations;
-using ClientMessenger.Commands;
+﻿using ClientMessenger.Commands;
 using ClientMessenger.Helpers;
 using ClientMessenger.Models;
 using Common;
-using Common.Contracts;
+using Common.Results;
 using ServiceWorker;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Input;
+using ClientMessenger.Properties;
 
 namespace ClientMessenger.ViewModels
 {
     public class MessengerViewModel : INotifyPropertyChanged
     {
-        public event EventHandler CloseWindow; 
+        public event EventHandler CloseWindow;
         private MessengerModel _messengerData;
         public MessengerModel MessengerData
         {
@@ -100,17 +95,17 @@ namespace ClientMessenger.ViewModels
             }
         }
 
-        public MessengerViewModel(string nickName, IMessageCallback callback, List<string> users)
+        public MessengerViewModel(IMessageCallback callback, AuthorizationResult data)
         {
             MessengerData = new MessengerModel();
             MessengerModels = new ObservableCollection<MessengerModel>();
-            NickName = nickName;
+            NickName = data.Employee.Login;
             callback.CallbackMessage += CallbackOnCallbackMessage;
             callback.NeedUpdateUsers += CallbackOnNeedUpdateUsers;
             var manager = DIFactory.Resolve<IServiceManager>();
             manager.Disconnected += ManagerOnDisconnected;
             Users = new ObservableCollection<string>();
-            foreach (var user in users)
+            foreach (var user in data.Users)
             {
                 if (user == NickName)
                 {
@@ -165,13 +160,16 @@ namespace ClientMessenger.ViewModels
 
         public ICommand SendMessage
         {
-            get { return _sendMessage ?? (_sendMessage = new BaseButtonCommand((obj) =>
+            get
             {
-                string message = NewMessage;
-                NewMessage = String.Empty;
-                var manager = DIFactory.Resolve<IServiceManager>();
-                manager.SendMessage(SendToUser, message);
-            }, (obj) => !String.IsNullOrEmpty(NewMessage))); }
+                return _sendMessage ?? (_sendMessage = new BaseButtonCommand((obj) =>
+          {
+              string message = NewMessage;
+              NewMessage = String.Empty;
+              var manager = DIFactory.Resolve<IServiceManager>();
+              manager.SendMessage(SendToUser, message);
+          }, (obj) => !String.IsNullOrEmpty(NewMessage)));
+            }
         }
 
         private ICommand _newLine;
@@ -188,7 +186,7 @@ namespace ClientMessenger.ViewModels
                         inputMessageBox.AppendText(Environment.NewLine);
                         inputMessageBox.CaretIndex = inputMessageBox.Text.Length;
                     }
-                    
+
                 }));
             }
         }
@@ -204,6 +202,23 @@ namespace ClientMessenger.ViewModels
                     var manager = DIFactory.Resolve<IServiceManager>();
                     manager.Disconnect(NickName);
                     CloseWindow?.Invoke(this, EventArgs.Empty);
+                }));
+            }
+        }
+
+        private ICommand _loadedCommand;
+
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return _loadedCommand ?? (_loadedCommand = new BaseButtonCommand((obj) =>
+                {
+                    var input = obj as TextBox;
+                    if (input != null)
+                    {
+                        input.Focus();
+                    }
                 }));
             }
         }

@@ -8,7 +8,8 @@ namespace Common
     {
         [DataMember]
         public ResultStatus ResultStatus { get; set; }
+
         [DataMember]
-        public List<string> ResultData { get; set; }
+        public string Message { get; set; }
     }
 }

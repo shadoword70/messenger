@@ -73,3 +73,6 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\FontAwesome.WPF.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\FontAwesome.WPF.xml
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\ServerHelper.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\ServerHelper.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Debug\DevOne.Security.Cryptography.BCrypt.dll

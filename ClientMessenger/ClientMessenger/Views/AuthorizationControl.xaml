@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="ClientMessenger.Views.AuthorizationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClientMessenger.Views"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:converters="clr-namespace:ClientMessenger.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsVisibleLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <Label Content="Email or Login"></Label>
+            <TextBox Margin="5" Height="20" Width="150" Text="{Binding ClientName, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Label Content="Password"></Label>
+            <TextBox Margin="5" Height="20" Width="150" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Margin="10" Width="100" Content="Authorize" Command="{Binding Join}">
+                <Button.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
+                </Button.InputBindings>
+            </Button>
+        </StackPanel>
+        <Grid Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="../Images/dromMouseTransponent.png"></Image>
+            <fa:ImageAwesome Grid.Row="1" Icon="Refresh" Spin="True" SpinDuration="3" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Grid>
+    </Grid>
+</UserControl>

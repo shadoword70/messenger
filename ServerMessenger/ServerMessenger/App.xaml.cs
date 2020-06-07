@@ -1,5 +1,4 @@
-﻿using DbWorker;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -8,6 +7,8 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ServerHelper;
+using ServerMessenger.Helpers;
 
 namespace ServerMessenger
 {
@@ -18,12 +19,8 @@ namespace ServerMessenger
     {
         public App()
         {
-            using (var context = new MessengerContext()) 
-            {
-                context.Database.CreateIfNotExists();
-            }
-
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MessengerContext, DbWorker.Migrations.Configuration>());
+            DIFactory.LoadModule(new Bindings());
+            DIFactory.LoadModule(new WcfService.Helpers.Bindings());
         }
     }
 }

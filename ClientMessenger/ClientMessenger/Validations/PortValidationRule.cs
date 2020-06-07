@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Net;
 using System.Windows.Controls;
 
 namespace ClientMessenger.Validations

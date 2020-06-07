@@ -7,7 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Common.Contracts;
+using Common.Results;
+using DbWorker;
 using LoggerWorker;
+using ServerHelper;
 
 namespace WcfService
 {
@@ -23,44 +26,71 @@ namespace WcfService
             _users = new List<User>();
         }
 
-        public ResultBody RegistrationClient(string name)
+        public async Task<AuthorizationResult> AuthorizationClient(string login, string password)
         {
-            _logger.Write(LogLevel.Info, DateTime.Now + " " + name + " Connect");
-            if (String.IsNullOrEmpty(name))
+            AuthorizationResult result = new AuthorizationResult();
+            
+            _logger.Write(LogLevel.Info, DateTime.Now + " " + login + " Connect");
+            if (String.IsNullOrEmpty(login))
             {
-                return new ResultBody {ResultStatus = ResultStatus.NotSuccess};
+                result.InfoBody = new ResultBody
+                {
+                    ResultStatus = ResultStatus.NotSuccess,
+                    Message = "Login empty!"
+                };
+                return result;
             }
 
-            if (_users.Exists(x => x.Name == name))
+            if (String.IsNullOrEmpty(password))
             {
-                return new ResultBody { ResultStatus = ResultStatus.NotSuccess };
+                result.InfoBody = new ResultBody
+                {
+                    ResultStatus = ResultStatus.NotSuccess,
+                    Message = "Password empty!"
+                };
+                return result;
+            }
+
+            var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+            var employee = await dbWorker.GetEmployee(login, password);
+            if (employee == null)
+            {
+                result.InfoBody = new ResultBody
+                {
+                    ResultStatus = ResultStatus.NotSuccess,
+                    Message = "Пользователь с таким логином и паролем не найден!"
+                };
+                return result;
             }
 
             var user = new User();
-            user.Name = name;
+            user.Login = login;
             user.Context = OperationContext.Current;
-            SendMessage(user.Name + " Connect chat", String.Empty);
+            SendMessage(user.Login + " Connect chat", String.Empty);
             _users.Add(user);
-            var names = _users.Select(x => x.Name).ToList();
+            var names = _users.Select(x => x.Login).ToList();
             foreach (var u in _users)
             {
                 try
                 {
-                    if (u.Name == name)
+                    if (u.Login == login)
                     {
                         continue;
                     }
 
-                    u?.Context.GetCallbackChannel<IServiceMessengerCallback>().UpdateUsers(names);
+                    u.Context.GetCallbackChannel<IServiceMessengerCallback>().UpdateUsers(names);
                 }
                 catch (Exception e)
                 {
                     _logger.Write(LogLevel.Error, "Error callback message", e);
-                    continue;
                 }
             }
 
-            return new ResultBody { ResultData = names, ResultStatus = ResultStatus.Success };
+            result.Employee = employee;
+            result.Users = names;
+            result.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
+            
+            return result;
         }
 
         public ResultBody DisconnectClient(string name)
@@ -68,11 +98,11 @@ namespace WcfService
             try
             {
                 _logger.Write(LogLevel.Info, DateTime.Now + " " + name + " Disconnect");
-                var disUser = _users.SingleOrDefault(x => x.Name == name);
+                var disUser = _users.SingleOrDefault(x => x.Login == name);
                 if (disUser != null)
                 {
                     _users.Remove(disUser);
-                    SendMessage(disUser.Name + "Disconnect chat", String.Empty);
+                    SendMessage(disUser.Login + "Disconnect chat", String.Empty);
                 }
 
                 return new ResultBody { ResultStatus = ResultStatus.Success };
@@ -89,13 +119,13 @@ namespace WcfService
         {
             _logger.Write(LogLevel.Info, DateTime.Now + " " + name + " " + message);
             var date = DateTime.Now;
-            var user = _users.SingleOrDefault(x => x.Name == name);
+            var user = _users.SingleOrDefault(x => x.Login == name);
             if (user != null)
             {
                 try
                 {
-                    user?.Context.GetCallbackChannel<IServiceMessengerCallback>().MessageCallback(date, user.Name, message);
-                    Callback.MessageCallback(date, user.Name, message);
+                    user.Context.GetCallbackChannel<IServiceMessengerCallback>().MessageCallback(date, user.Login, message);
+                    Callback.MessageCallback(date, user.Login, message);
                 }
                 catch (Exception e)
                 {

@@ -10,14 +10,15 @@ using System.Windows;
 using System.Windows.Input;
 using Common;
 using Common.Enums;
-using DbWorker;
 using LoggerWorker;
+using ServerHelper;
 using ServerMessenger.Annotations;
 using ServerMessenger.Classes;
 using ServerMessenger.Commands;
 using ServerMessenger.Helpers;
 using ServerMessenger.Models;
 using WcfService;
+using WcfService.Workers;
 
 namespace ServerMessenger.ViewModels
 {

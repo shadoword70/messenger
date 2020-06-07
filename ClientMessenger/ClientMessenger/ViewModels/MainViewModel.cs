@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using ClientMessenger.Properties;
+using ClientMessenger.Views;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using ClientMessenger.Properties;
-using ClientMessenger.Views;
 
 namespace ClientMessenger.ViewModels
 {
@@ -43,9 +43,8 @@ namespace ClientMessenger.ViewModels
 
         private void ChangeScreenToRegistration()
         {
-            
-            var viewModel = new RegistrationViewModel();
-            var connectControl = new RegistrationControl(viewModel);
+            var viewModel = new AuthorizationViewModel();
+            var connectControl = new AuthorizationControl(viewModel);
             Control = connectControl;
         }
     }

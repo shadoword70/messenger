@@ -13,12 +13,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using LoggerWorker;
 using Ninject.Parameters;
+using ServerHelper;
 using ServerMessenger.Annotations;
 using ServerMessenger.Classes;
 using ServerMessenger.Commands;
 using ServerMessenger.Helpers;
 using ServerMessenger.Models;
 using WcfService;
+using WcfService.Workers;
 
 namespace ServerMessenger.ViewModels
 {
@@ -92,10 +94,10 @@ namespace ServerMessenger.ViewModels
                         new ConstructorArgument("logger", logger, false),
                         new ConstructorArgument("ip", EndpointData.Ip, false),
                         new ConstructorArgument("port", EndpointData.Port, false),
-                        new ConstructorArgument("serverName", EndpointData.ServerName, false)
+                        new ConstructorArgument("serverName", EndpointData.ServerName, false),
+                        new ConstructorArgument("systemWorker", DIFactory.Resolve<ISystemWorker>()), 
                     };
-                    var serviceManager = (ServiceManager) DIFactory.Resolve<IServiceManager>(data);
-                    //ServiceBase.Run(serviceManager);
+                    var serviceManager = DIFactory.Resolve<IServiceManager>(data);
                     serviceManager.StartService();
                     _changeScreen();
                 }, (obj) =>CheckModel()));

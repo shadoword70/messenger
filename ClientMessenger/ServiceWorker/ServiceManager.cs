@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Common;
 using Common.Contracts;
+using Common.Results;
 
 namespace ServiceWorker
 {
@@ -16,6 +17,10 @@ namespace ServiceWorker
         private Timer _timer;
         private DateTime _lastConnect;
         private IServiceMessenger _channel;
+        private string ip;
+        private string port;
+        private ServiceMessengerCallback callback;
+
         public ServiceManager(string ip, string port, ServiceMessengerCallback callback)
         {
             Uri address = new Uri($"net.tcp://{ip}:{port}/IServiceMessenger");
@@ -45,16 +50,17 @@ namespace ServiceWorker
             }
         }
 
-        public ResultBody Registration(string name)
+        public async Task<AuthorizationResult> Authorization(string name, string password)
         {
             try
             {
                 _lastConnect = DateTime.Now;
-                return _channel.RegistrationClient(name);
+
+                return await _channel.AuthorizationClient(name, password);
             }
-            catch
+            catch (Exception ex)
             {
-                return new ResultBody {ResultStatus = ResultStatus.NotSuccess};
+                return new AuthorizationResult { InfoBody = new ResultBody {ResultStatus = ResultStatus.NotSuccess, Message = ex.Message}};
             }
         }
 
