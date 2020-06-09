@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ClientMessenger.Properties;
+using Common.Results;
 
 namespace ClientMessenger.Models
 {
@@ -39,15 +40,15 @@ namespace ClientMessenger.Models
             }
         }
 
-        private string _nickName;
+        private UserModel _currentUser;
 
-        public string NickName
+        public UserModel CurrentUser
         {
-            get { return _nickName; }
+            get { return _currentUser; }
             set
             {
-                _nickName = value;
-                OnPropertyChanged("NickName");
+                _currentUser = value;
+                OnPropertyChanged("CurrentUser");
             }
         }
 

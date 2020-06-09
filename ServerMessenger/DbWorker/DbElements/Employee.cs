@@ -38,6 +38,6 @@ namespace DbWorker.DbElements
         [Required]
         public string Position { get; set; }
         
-        public User User { get; set; }
+        public virtual User User { get; set; }
     }
 }

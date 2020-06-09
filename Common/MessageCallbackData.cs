@@ -9,7 +9,8 @@ namespace Common
     public class MessageCallbackData
     {
         public DateTime Date { get; set; }
-        public string Name { get; set; }
+        public Guid ChatGuid { get; set; }
         public string Message { get; set; }
+        public Guid SendedUserGuid { get; set; }
     }
 }

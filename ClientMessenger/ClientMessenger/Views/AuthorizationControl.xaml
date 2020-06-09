@@ -13,27 +13,34 @@
             <converters:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsVisibleLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
-            <Label Content="Email or Login"></Label>
-            <TextBox Margin="5" Height="20" Width="150" Text="{Binding ClientName, UpdateSourceTrigger=PropertyChanged}">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding IsVisibleLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Email or Login" Style="{StaticResource CustomLabel}"></Label>
+            <TextBox Margin="0 0 0 10" Grid.Row="1" Text="{Binding ClientName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CustomTextBox}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </TextBox.InputBindings>
             </TextBox>
-            <Label Content="Password"></Label>
-            <TextBox Margin="5" Height="20" Width="150" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}">
+            <Label Grid.Row="2" Content="Password" Style="{StaticResource CustomLabel}"></Label>
+            <TextBox Margin="0 0 0 10" Grid.Row="3" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CustomTextBox}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Margin="10" Width="100" Content="Authorize" Command="{Binding Join}">
+            <Button Grid.Row="4" Content="Authorize" Command="{Binding Join}" Style="{StaticResource CustomButton}">
                 <Button.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </Button.InputBindings>
             </Button>
-        </StackPanel>
-        <Grid Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10">
+        </Grid>
+        <Grid Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>

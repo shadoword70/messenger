@@ -8,9 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 using ClientMessenger.Properties;
 
 namespace ClientMessenger.ViewModels
@@ -41,8 +47,8 @@ namespace ClientMessenger.ViewModels
             }
         }
 
-        private string _sendToUser;
-        public string SendToUser
+        private UserModel _sendToUser;
+        public UserModel SendToUser
         {
             get { return _sendToUser; }
             set
@@ -53,9 +59,10 @@ namespace ClientMessenger.ViewModels
             }
         }
 
-        private ObservableCollection<string> _users;
 
-        public ObservableCollection<string> Users
+        private ObservableCollection<UserModel> _users = new ObservableCollection<UserModel>();
+
+        public ObservableCollection<UserModel> Users
         {
             get { return _users; }
             set
@@ -75,13 +82,13 @@ namespace ClientMessenger.ViewModels
             }
         }
 
-        public string NickName
+        public UserModel CurrentUser
         {
-            get { return MessengerData.NickName; }
+            get { return MessengerData.CurrentUser; }
             set
             {
-                MessengerData.NickName = value;
-                OnPropertyChanged("NickName");
+                MessengerData.CurrentUser = value;
+                OnPropertyChanged("CurrentUser");
             }
         }
 
@@ -98,41 +105,111 @@ namespace ClientMessenger.ViewModels
         public MessengerViewModel(IMessageCallback callback, AuthorizationResult data)
         {
             MessengerData = new MessengerModel();
+            var employee = data.Employee;
             MessengerModels = new ObservableCollection<MessengerModel>();
-            NickName = data.Employee.Login;
+            
+            var emptyPhotoPath = "Images\\emptyImage.png";
+            BitmapImage emptyPhoto = null;
+            if (File.Exists(emptyPhotoPath))
+            {
+                emptyPhoto = ImageHelper.GetImage(emptyPhotoPath);
+            }
+
+            CurrentUser = new UserModel
+            {
+                Login = employee.Login,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                Patronymic = employee.Patronymic,
+                Email = employee.Email,
+                Guid = employee.Guid,
+                Position = employee.Position
+            };
+
+            CurrentUser.EmployeePhoto = employee.Photo != null ? ImageHelper.ByteToImageSource(employee.Photo) : emptyPhoto;
+
+            callback.CallbackMessage -= CallbackOnCallbackMessage;
+            callback.NeedUpdateChats -= CallbackOnNeedUpdateChats;
             callback.CallbackMessage += CallbackOnCallbackMessage;
-            callback.NeedUpdateUsers += CallbackOnNeedUpdateUsers;
+            callback.NeedUpdateChats += CallbackOnNeedUpdateChats;
             var manager = DIFactory.Resolve<IServiceManager>();
             manager.Disconnected += ManagerOnDisconnected;
-            Users = new ObservableCollection<string>();
-            foreach (var user in data.Users)
+            UpdateChatsResult dataChats = new UpdateChatsResult
             {
-                if (user == NickName)
-                {
-                    continue;
-                }
-                Users.Add(user);
-            }
+                Chats = data.Chats,
+                Users = data.Users
+            };
+
+            CallbackOnNeedUpdateChats(dataChats, null);
         }
 
-        private void CallbackOnNeedUpdateUsers(object sender, EventArgs e)
+        private void CallbackOnNeedUpdateChats(object sender, EventArgs e)
         {
-            var users = (List<string>)sender;
-            Users.Clear();
-            foreach (var user in users)
+            var emptyPhotoPath = "Images\\emptyImage.png";
+            BitmapImage emptyPhoto = null;
+            if (File.Exists(emptyPhotoPath))
             {
-                if (user == NickName)
+                emptyPhoto = ImageHelper.GetImage(emptyPhotoPath);
+            }
+
+            if (sender is UpdateChatsResult data)
+            {
+                var chatGuid1 = data.Chats.Where(x => x.UserGuid == CurrentUser.Guid).ToList();
+                foreach (var user in data.Users)
                 {
-                    continue;
+                    if (user.Guid == CurrentUser.Guid)
+                    {
+                        continue;
+                    }
+
+                    Guid chatGuid2 = data.Chats.Where(x => x.UserGuid == user.Guid)
+                        .Join(chatGuid1, x1 => x1.ChatGuid, x2 => x2.ChatGuid,
+                            (party1, party2) => party1.ChatGuid).FirstOrDefault();
+
+                    var oldUser = Users.SingleOrDefault(x => x.Guid == user.Guid);
+                    if (oldUser != null)
+                    {
+                        oldUser.Login = user.Login;
+                        oldUser.Guid = user.Guid;
+                        oldUser.Name = user.Name;
+                        oldUser.Surname = user.Surname;
+                        oldUser.Patronymic = user.Patronymic;
+                        oldUser.Email = user.Email;
+                        oldUser.IsOnline = user.IsOnline;
+                        oldUser.Position = user.Position;
+                        oldUser.ChatGuid = chatGuid2 != Guid.Empty ? chatGuid2 : user.Guid;
+                        oldUser.EmployeePhoto = user.EmployeePhoto != null
+                            ? ImageHelper.ByteToImageSource(user.EmployeePhoto)
+                            : emptyPhoto;
+                    }
+                    else
+                    {
+                        UserModel userModel = new UserModel
+                        {
+                            Login = user.Login,
+                            Guid = user.Guid,
+                            Name = user.Name,
+                            Surname = user.Surname,
+                            Patronymic = user.Patronymic,
+                            Email = user.Email,
+                            IsOnline = user.IsOnline,
+                            Position = user.Position
+                        };
+                        
+                        userModel.ChatGuid = chatGuid2 != Guid.Empty ? chatGuid2 : user.Guid;
+                        userModel.EmployeePhoto = user.EmployeePhoto != null
+                            ? ImageHelper.ByteToImageSource(user.EmployeePhoto)
+                            : emptyPhoto;
+                        Users.Add(userModel);
+                    }
                 }
-                Users.Add(user);
             }
         }
 
         private void ManagerOnDisconnected(object sender, EventArgs e)
         {
             var manager = DIFactory.Resolve<IServiceManager>();
-            manager.Disconnect(NickName);
+            manager.Disconnect(CurrentUser.Guid);
             CloseWindow?.Invoke(this, EventArgs.Empty);
         }
 
@@ -140,11 +217,36 @@ namespace ClientMessenger.ViewModels
         {
             if (sender is MessageCallbackData data)
             {
-                MessengerModel mes = new MessengerModel();
-                mes.Date = data.Date.ToShortDateString() + " " + data.Date.ToShortTimeString();
-                mes.Nick = data.Name;
-                mes.Message = data.Message;
-                MessengerModels.Add(mes);
+                if (data.ChatGuid == SendToUser.ChatGuid)
+                {
+                    MessengerModel mes = new MessengerModel();
+                    mes.Date = data.Date.ToShortDateString() + " " + data.Date.ToShortTimeString();
+                    
+                    var user = Users.SingleOrDefault(x => x.Guid == data.SendedUserGuid);
+                    if (user == null)
+                    {
+                        mes.Nick = CurrentUser.Login;
+                    }
+                    else
+                    {
+                        mes.Nick = user.Login;
+                    }
+
+                    mes.Message = data.Message;
+                    MessengerModels.Add(mes);
+                }
+                //else
+                //{
+                //    var user = Users.SingleOrDefault(x => x.Guid == data.UserGuid);
+                //    if (user != null)
+                //    {
+                //        MessengerModel mes = new MessengerModel();
+                //        mes.Date = data.Date.ToShortDateString() + " " + data.Date.ToShortTimeString();
+                //        mes.Nick = user.Login;
+                //        mes.Message = data.Message;
+                //        MessengerModels.Add(mes);
+                //    }
+                //}
             }
         }
 
@@ -163,12 +265,12 @@ namespace ClientMessenger.ViewModels
             get
             {
                 return _sendMessage ?? (_sendMessage = new BaseButtonCommand((obj) =>
-          {
-              string message = NewMessage;
-              NewMessage = String.Empty;
-              var manager = DIFactory.Resolve<IServiceManager>();
-              manager.SendMessage(SendToUser, message);
-          }, (obj) => !String.IsNullOrEmpty(NewMessage)));
+                {
+                    string message = NewMessage;
+                    NewMessage = String.Empty;
+                    var manager = DIFactory.Resolve<IServiceManager>();
+                    manager.SendMessage(CurrentUser.Guid, SendToUser.ChatGuid ?? SendToUser.Guid, message);
+                }, (obj) => !String.IsNullOrEmpty(NewMessage)));
             }
         }
 
@@ -200,7 +302,7 @@ namespace ClientMessenger.ViewModels
                 return _disconnect ?? (_disconnect = new BaseButtonCommand((obj) =>
                 {
                     var manager = DIFactory.Resolve<IServiceManager>();
-                    manager.Disconnect(NickName);
+                    manager.Disconnect(CurrentUser.Guid);
                     CloseWindow?.Invoke(this, EventArgs.Empty);
                 }));
             }
@@ -214,8 +316,7 @@ namespace ClientMessenger.ViewModels
             {
                 return _loadedCommand ?? (_loadedCommand = new BaseButtonCommand((obj) =>
                 {
-                    var input = obj as TextBox;
-                    if (input != null)
+                    if (obj is TextBox input)
                     {
                         input.Focus();
                     }

@@ -10,8 +10,8 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\D
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.CopyComplete
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.pdb
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.Migrations.InitialCreate.resources
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.GenerateResource.cache
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\Common.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\Common.pdb
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Debug\DevOne.Security.Cryptography.BCrypt.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.Migrations.InitialCreate.resources
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Debug\DbWorker.csproj.GenerateResource.cache

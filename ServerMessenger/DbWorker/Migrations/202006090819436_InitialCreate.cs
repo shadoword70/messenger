@@ -8,6 +8,16 @@
         public override void Up()
         {
             CreateTable(
+                "dbo.Chat",
+                c => new
+                    {
+                        Guid = c.Guid(nullable: false, identity: true),
+                        Name = c.String(),
+                        UserGuid = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => t.Guid);
+            
+            CreateTable(
                 "dbo.Employee",
                 c => new
                     {
@@ -26,7 +36,7 @@
                 c => new
                     {
                         Guid = c.Guid(nullable: false),
-                        Login = c.String(nullable: false),
+                        Login = c.String(),
                         Email = c.String(nullable: false),
                         Password = c.String(nullable: false),
                     })
@@ -49,16 +59,6 @@
                 .ForeignKey("dbo.User", t => t.UserGuid, cascadeDelete: true)
                 .Index(t => t.ChatGuid)
                 .Index(t => t.UserGuid);
-            
-            CreateTable(
-                "dbo.Chat",
-                c => new
-                    {
-                        Guid = c.Guid(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        UserGuid = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => t.Guid);
             
             CreateTable(
                 "dbo.MessageStatus",
@@ -103,10 +103,10 @@
             DropIndex("dbo.User", new[] { "Guid" });
             DropTable("dbo.Party");
             DropTable("dbo.MessageStatus");
-            DropTable("dbo.Chat");
             DropTable("dbo.Message");
             DropTable("dbo.User");
             DropTable("dbo.Employee");
+            DropTable("dbo.Chat");
         }
     }
 }

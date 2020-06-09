@@ -9,6 +9,6 @@ namespace ServiceWorker
     public interface IMessageCallback
     {
         event EventHandler CallbackMessage;
-        event EventHandler NeedUpdateUsers;
+        event EventHandler NeedUpdateChats;
     }
 }

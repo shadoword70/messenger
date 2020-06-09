@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>logo %282%29.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
@@ -75,9 +75,12 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="Helpers\DIFactory.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Models\MessengerModel.cs" />
     <Compile Include="Models\AuthorizationModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Validations\PortValidationRule.cs" />
     <Compile Include="Validations\IpValidationRule.cs" />
@@ -168,9 +171,13 @@
     <Content Include="Images\dromMouse.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="logo %282%29.ico" />
     <Resource Include="logo.ico" />
-    <Resource Include="Images\dromMouseTransponent.png" />
+    <Content Include="Images\dromMouseTransponent.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\emptyImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

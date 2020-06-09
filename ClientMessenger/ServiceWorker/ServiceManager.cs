@@ -17,26 +17,44 @@ namespace ServiceWorker
         private Timer _timer;
         private DateTime _lastConnect;
         private IServiceMessenger _channel;
-        private string ip;
-        private string port;
-        private ServiceMessengerCallback callback;
+        private string _ip;
+        private string _port;
+        private IMessageCallback _callback;
 
-        public ServiceManager(string ip, string port, ServiceMessengerCallback callback)
+
+        public ServiceManager(string ip, string port, IMessageCallback callback)
         {
-            Uri address = new Uri($"net.tcp://{ip}:{port}/IServiceMessenger");
+            _ip = ip;
+            _port = port;
+            _callback = callback;
 
-            NetTcpBinding binding = new NetTcpBinding();
+            InitiationChannel(_ip, _port, _callback);
+        }
 
-            EndpointAddress endpoint = new EndpointAddress(address);
-            InstanceContext instanceContext = new InstanceContext(callback);
-            
-            DuplexChannelFactory <IServiceMessenger> factory = new DuplexChannelFactory<IServiceMessenger>(instanceContext, binding, endpoint);
-            _channel = factory.CreateChannel();
-            _timer = new Timer(10000);
-            _timer.Enabled = true;
-            _timer.AutoReset = true;
-            _timer.Elapsed += TimerOnElapsed;
-            _lastConnect = DateTime.Now;
+        private void InitiationChannel(string ip, string port, IMessageCallback callback)
+        {
+            try
+            {
+                Uri address = new Uri($"net.tcp://{ip}:{port}/IServiceMessenger");
+
+                NetTcpBinding binding = new NetTcpBinding();
+
+                EndpointAddress endpoint = new EndpointAddress(address);
+                InstanceContext instanceContext = new InstanceContext(callback);
+
+                DuplexChannelFactory<IServiceMessenger> factory =
+                    new DuplexChannelFactory<IServiceMessenger>(instanceContext, binding, endpoint);
+                _channel = factory.CreateChannel();
+                _timer = new Timer(10000);
+                _timer.Enabled = true;
+                _timer.AutoReset = true;
+                _timer.Elapsed += TimerOnElapsed;
+                _lastConnect = DateTime.Now;
+            }
+            catch
+            {
+
+            }
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -50,25 +68,26 @@ namespace ServiceWorker
             }
         }
 
-        public async Task<AuthorizationResult> Authorization(string name, string password)
+        public async Task<AuthorizationResult> Authorization(string login, string password)
         {
             try
             {
                 _lastConnect = DateTime.Now;
 
-                return await _channel.AuthorizationClient(name, password);
+                return await _channel.AuthorizationClient(login, password);
             }
             catch (Exception ex)
             {
+                InitiationChannel(_ip, _port, _callback);
                 return new AuthorizationResult { InfoBody = new ResultBody {ResultStatus = ResultStatus.NotSuccess, Message = ex.Message}};
             }
         }
 
-        public ResultBody Disconnect(string name)
+        public ResultBody Disconnect(Guid userGuid)
         {
             try
             {
-                return _channel.DisconnectClient(name);
+                return _channel.DisconnectClient(userGuid);
             }
             catch
             {
@@ -76,12 +95,12 @@ namespace ServiceWorker
             }
         }
 
-        public void SendMessage(string name, string message)
+        public void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message)
         {
             try
             {
                 _lastConnect = DateTime.Now;
-                _channel.SendMessage(name, message);
+                _channel.SendMessage(selfGuid, chatOrUserGuid, message);
             }
             catch
             {

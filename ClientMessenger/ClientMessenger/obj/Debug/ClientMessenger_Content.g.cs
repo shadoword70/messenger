@@ -9,6 +9,8 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/drommouse.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/drommousetransponent.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/emptyimage.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/logo.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/logo.svg")]
 

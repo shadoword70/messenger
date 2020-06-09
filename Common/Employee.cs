@@ -9,6 +9,8 @@ namespace Common
 {
     public class Employee
     {
+        public Guid Guid { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }
@@ -34,5 +36,7 @@ namespace Common
         {
             return Surname + " " + Name + " " + Patronymic;
         }
+
+        public byte[] Photo { get; set; }
     }
 }

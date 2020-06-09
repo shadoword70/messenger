@@ -28,9 +28,9 @@ namespace WcfService
 
         public async Task<AuthorizationResult> AuthorizationClient(string login, string password)
         {
+            var currentContext = OperationContext.Current;
             AuthorizationResult result = new AuthorizationResult();
             
-            _logger.Write(LogLevel.Info, DateTime.Now + " " + login + " Connect");
             if (String.IsNullOrEmpty(login))
             {
                 result.InfoBody = new ResultBody
@@ -63,22 +63,70 @@ namespace WcfService
                 return result;
             }
 
-            var user = new User();
-            user.Login = login;
-            user.Context = OperationContext.Current;
-            SendMessage(user.Login + " Connect chat", String.Empty);
-            _users.Add(user);
-            var names = _users.Select(x => x.Login).ToList();
+            _logger.Write(LogLevel.Info, DateTime.Now + " " + login + " Connect");
+
+            var employees = await dbWorker.GetEmployees();
+            var chats = await dbWorker.GetUserChats(employee.Guid);
+
+            var queueUser = _users.SingleOrDefault(x => x.UserGuid == employee.Guid);
+            if (queueUser == null)
+            {
+                var user = new User();
+                user.UserGuid = employee.Guid;
+                user.Contexts.Add(currentContext);
+                _users.Add(user);
+            }
+            else
+            {
+                queueUser.Contexts.Add(currentContext);
+            }
+
+            //var usersResult = employees.DefaultIfEmpty().Join(_users.DefaultIfEmpty(),
+            //    dbEmployee => dbEmployee.Guid,
+            //    queueEmployee => queueEmployee.UserGuid,
+            //    (dbEmployee, queueEmployee) => 
+            //        new Common.Results.User
+            //        {
+            //            Guid = dbEmployee.Guid,
+            //            Email = dbEmployee.Email,
+            //            Login = dbEmployee.Login,
+            //            Surname = dbEmployee.Surname,
+            //            Patronymic = dbEmployee.Patronymic,
+            //            Position = dbEmployee.Position,
+            //            Name = dbEmployee.Name,
+            //            IsOnline = queueEmployee.Contexts.Any()
+            //        }).ToList();
+
+            var usersResult = employees.Select(dbEmployee => new Common.Results.User
+            {
+                Guid = dbEmployee.Guid,
+                Email = dbEmployee.Email,
+                Login = dbEmployee.Login,
+                Surname = dbEmployee.Surname,
+                Patronymic = dbEmployee.Patronymic,
+                Position = dbEmployee.Position,
+                Name = dbEmployee.Name
+            }).ToList();
+
+            foreach (var user in _users)
+            {
+                var single = usersResult.Single(x => x.Guid == user.UserGuid);
+                single.IsOnline = user.Contexts.Any();
+            }
+
+            var chatsResult = new UpdateChatsResult();
+            chatsResult.Users = usersResult;
+            chatsResult.Chats = chats;
+            chatsResult.InfoBody = new ResultBody {ResultStatus = ResultStatus.Success};
+
             foreach (var u in _users)
             {
                 try
                 {
-                    if (u.Login == login)
+                    foreach (var context in u.Contexts)
                     {
-                        continue;
+                        context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
                     }
-
-                    u.Context.GetCallbackChannel<IServiceMessengerCallback>().UpdateUsers(names);
                 }
                 catch (Exception e)
                 {
@@ -87,22 +135,22 @@ namespace WcfService
             }
 
             result.Employee = employee;
-            result.Users = names;
+            result.Users = usersResult;
+            result.Chats = chats;
             result.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
             
             return result;
         }
 
-        public ResultBody DisconnectClient(string name)
+        public ResultBody DisconnectClient(Guid userGuid)
         {
             try
             {
-                _logger.Write(LogLevel.Info, DateTime.Now + " " + name + " Disconnect");
-                var disUser = _users.SingleOrDefault(x => x.Login == name);
+                _logger.Write(LogLevel.Info, DateTime.Now + " " + userGuid + " Disconnect");
+                var disUser = _users.SingleOrDefault(x => x.UserGuid == userGuid);
                 if (disUser != null)
                 {
                     _users.Remove(disUser);
-                    SendMessage(disUser.Login + "Disconnect chat", String.Empty);
                 }
 
                 return new ResultBody { ResultStatus = ResultStatus.Success };
@@ -115,17 +163,65 @@ namespace WcfService
 
         }
 
-        public void SendMessage(string name, string message)
+        public async void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message)
         {
-            _logger.Write(LogLevel.Info, DateTime.Now + " " + name + " " + message);
+            //var callback = Callback;
+            _logger.Write(LogLevel.Info, DateTime.Now + " " + chatOrUserGuid + " " + message);
+            var worker = DIFactory.Resolve<IDbSystemWorker>();
             var date = DateTime.Now;
-            var user = _users.SingleOrDefault(x => x.Login == name);
-            if (user != null)
+            var chatGuid = await worker.SaveMessage(selfGuid, chatOrUserGuid, message, date);
+
+            //callback.MessageCallback(date, chatGuid, message, selfGuid);
+
+            foreach (var user in _users)
             {
                 try
                 {
-                    user.Context.GetCallbackChannel<IServiceMessengerCallback>().MessageCallback(date, user.Login, message);
-                    Callback.MessageCallback(date, user.Login, message);
+                    var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+                    var employees = await dbWorker.GetEmployees();
+                    var chats = await dbWorker.GetUserChats(user.UserGuid);
+
+                    var usersResult = employees.Select(dbEmployee => new Common.Results.User
+                    {
+                        Guid = dbEmployee.Guid,
+                        Email = dbEmployee.Email,
+                        Login = dbEmployee.Login,
+                        Surname = dbEmployee.Surname,
+                        Patronymic = dbEmployee.Patronymic,
+                        Position = dbEmployee.Position,
+                        Name = dbEmployee.Name
+                    }).ToList();
+
+                    foreach (var u in _users)
+                    {
+                        var single = usersResult.Single(x => x.Guid == u.UserGuid);
+                        single.IsOnline = user.Contexts.Any();
+                    }
+
+                    var chatsResult = new UpdateChatsResult();
+                    chatsResult.Users = usersResult;
+                    chatsResult.Chats = chats;
+                    chatsResult.InfoBody = new ResultBody {ResultStatus = ResultStatus.Success};
+
+                    foreach (var u in _users)
+                    {
+                        try
+                        {
+                            foreach (var context in u.Contexts)
+                            {
+                                context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Write(LogLevel.Error, "Error callback message", e);
+                        }
+                    }
+
+                    foreach (var context in user.Contexts)
+                    {
+                        context.GetCallbackChannel<IServiceMessengerCallback>().MessageCallback(date, chatGuid, message, selfGuid);
+                    }
                 }
                 catch (Exception e)
                 {

@@ -68,3 +68,5 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\bin\Debug\FontAwesome.WPF.xml
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\bin\Debug\DevOne.Security.Cryptography.BCrypt.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\bin\Debug\Images\dromMouseTransponent.png
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\bin\Debug\Images\emptyImage.png

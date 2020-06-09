@@ -21,7 +21,7 @@ namespace DbWorker
         }
 
         public DbSet<User> User { get; set; }
-        public DbSet<Chat> Сhat { get; set; }
+        public DbSet<Chat> Chat { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<MessageStatus> MessageStatus { get; set; }
         public DbSet<Party> Party { get; set; }

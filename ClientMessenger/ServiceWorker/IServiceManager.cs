@@ -11,9 +11,9 @@ namespace ServiceWorker
 {
     public interface IServiceManager
     {
-        Task<AuthorizationResult> Authorization(string name, string password);
-        ResultBody Disconnect(string name);
-        void SendMessage(string name, string message);
+        Task<AuthorizationResult> Authorization(string login, string password);
+        ResultBody Disconnect(Guid userGuid);
+        void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message);
         event EventHandler Disconnected;
 
     }

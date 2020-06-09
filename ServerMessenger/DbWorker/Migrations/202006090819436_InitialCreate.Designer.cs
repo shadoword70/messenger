@@ -13,7 +13,7 @@ namespace DbWorker.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202005311059492_InitialCreate"; }
+            get { return "202006090819436_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

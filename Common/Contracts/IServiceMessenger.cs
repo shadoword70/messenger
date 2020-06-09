@@ -13,19 +13,19 @@ namespace Common.Contracts
         Task<AuthorizationResult> AuthorizationClient(string login, string password);
 
         [OperationContract]
-        ResultBody DisconnectClient(string name);
+        ResultBody DisconnectClient(Guid userGuid);
 
         [OperationContract(IsOneWay = true)]
-        void SendMessage(string name, string message);
+        void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message);
     }
 
     [ServiceContract]
     public interface IServiceMessengerCallback
     {
         [OperationContract(IsOneWay = true)]
-        void MessageCallback(DateTime date, string name, string message);
+        void MessageCallback(DateTime date, Guid chatGuid, string message, Guid selfGuid);
 
         [OperationContract(IsOneWay = true)]
-        void UpdateUsers(List<string> users);
+        void UpdateChats(UpdateChatsResult chats);
     }
 }

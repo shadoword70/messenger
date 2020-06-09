@@ -20,10 +20,8 @@ namespace DbWorker.DbElements
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Guid { get; set; }
         
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public Guid UserGuid { get; set; }
     }
 }

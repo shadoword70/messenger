@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Common.Contracts;
+using Common.Results;
 
 namespace ServiceWorker
 {
     public class ServiceMessengerCallback : IServiceMessengerCallback, IMessageCallback
     {
         public event EventHandler CallbackMessage;
-        public event EventHandler NeedUpdateUsers;
-        public void MessageCallback(DateTime date, string name, string message)
+        public event EventHandler NeedUpdateChats;
+        public void MessageCallback(DateTime date, Guid chatGuid, string message, Guid selfGuid)
         {
             var data = new MessageCallbackData();
             data.Date = date;
-            data.Name = name;
+            data.ChatGuid = chatGuid;
             data.Message = message;
+            data.SendedUserGuid = selfGuid;
             CallbackMessage?.Invoke(data, EventArgs.Empty);
         }
 
-        public void UpdateUsers(List<string> users)
+        public void UpdateChats(UpdateChatsResult chats)
         {
-            NeedUpdateUsers?.Invoke(users, EventArgs.Empty);
+            NeedUpdateChats?.Invoke(chats, EventArgs.Empty);
         }
     }
 }

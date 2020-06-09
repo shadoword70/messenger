@@ -9,7 +9,7 @@ namespace WcfService
 {
     public class User
     {
-        public string Login { get; set; }
-        public OperationContext Context { get; set; }
+        public Guid UserGuid { get; set; }
+        public List<OperationContext> Contexts { get; set; } = new List<OperationContext>();
     }
 }
