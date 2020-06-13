@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using Common.Results;
 
 namespace DbWorker
 {
@@ -16,5 +17,7 @@ namespace DbWorker
         Task<Dictionary<Guid, List<Party>>> GetChats(Guid userGuid);
         Task<List<Party>> GetUserChats(Guid userGuid);
         Task<Guid> SaveMessage(Guid selfGuid, Guid chatOrUserGuid, string message, DateTime date);
+        Task UpdatePhoto(Guid userGuid, string photo);
+        Task<GetChatResult> GetChat(Guid chatGuid);
     }
 }

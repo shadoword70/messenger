@@ -14,6 +14,8 @@ namespace ServiceWorker
         Task<AuthorizationResult> Authorization(string login, string password);
         ResultBody Disconnect(Guid userGuid);
         void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message);
+        void UpdatePhoto(Guid userGuid, byte[] photo);
+        Task<GetChatResult> GetChat(Guid chatGuid);
         event EventHandler Disconnected;
 
     }

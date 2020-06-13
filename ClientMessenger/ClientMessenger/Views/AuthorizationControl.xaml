@@ -22,19 +22,19 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Email or Login" Style="{StaticResource CustomLabel}"></Label>
+            <Label Grid.Row="0" Content="Email или Логин" Style="{StaticResource CustomLabel}"></Label>
             <TextBox Margin="0 0 0 10" Grid.Row="1" Text="{Binding ClientName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CustomTextBox}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </TextBox.InputBindings>
             </TextBox>
-            <Label Grid.Row="2" Content="Password" Style="{StaticResource CustomLabel}"></Label>
+            <Label Grid.Row="2" Content="Пароль" Style="{StaticResource CustomLabel}"></Label>
             <TextBox Margin="0 0 0 10" Grid.Row="3" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CustomTextBox}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Grid.Row="4" Content="Authorize" Command="{Binding Join}" Style="{StaticResource CustomButton}">
+            <Button Grid.Row="4" Content="Подключиться" Command="{Binding Join}" Style="{StaticResource CustomButton}">
                 <Button.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding Join}"></KeyBinding>
                 </Button.InputBindings>

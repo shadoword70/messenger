@@ -37,7 +37,9 @@ namespace DbWorker.DbElements
        
         [Required]
         public string Position { get; set; }
-        
+
+        public string Photo { get; set; }
+
         public virtual User User { get; set; }
     }
 }

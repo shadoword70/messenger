@@ -105,7 +105,8 @@ namespace WcfService
                 Surname = dbEmployee.Surname,
                 Patronymic = dbEmployee.Patronymic,
                 Position = dbEmployee.Position,
-                Name = dbEmployee.Name
+                Name = dbEmployee.Name,
+                EmployeePhoto = dbEmployee.Photo,
             }).ToList();
 
             foreach (var user in _users)
@@ -189,7 +190,8 @@ namespace WcfService
                         Surname = dbEmployee.Surname,
                         Patronymic = dbEmployee.Patronymic,
                         Position = dbEmployee.Position,
-                        Name = dbEmployee.Name
+                        Name = dbEmployee.Name,
+                        EmployeePhoto = dbEmployee.Photo
                     }).ToList();
 
                     foreach (var u in _users)
@@ -228,6 +230,71 @@ namespace WcfService
                     _logger.Write(LogLevel.Error, "Error callback message", e);
                 }
             }
+        }
+
+        public async void UpdatePhoto(Guid userGuid, byte[] photo)
+        {
+            var worker = DIFactory.Resolve<IDbSystemWorker>();
+            await worker.UpdatePhoto(userGuid, Convert.ToBase64String(photo));
+
+            foreach (var user in _users)
+            {
+                try
+                {
+                    var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+                    var employees = await dbWorker.GetEmployees();
+                    var chats = await dbWorker.GetUserChats(user.UserGuid);
+
+                    var usersResult = employees.Select(dbEmployee => new Common.Results.User
+                    {
+                        Guid = dbEmployee.Guid,
+                        Email = dbEmployee.Email,
+                        Login = dbEmployee.Login,
+                        Surname = dbEmployee.Surname,
+                        Patronymic = dbEmployee.Patronymic,
+                        Position = dbEmployee.Position,
+                        Name = dbEmployee.Name,
+                        EmployeePhoto = dbEmployee.Photo
+                    }).ToList();
+
+                    foreach (var u in _users)
+                    {
+                        var single = usersResult.Single(x => x.Guid == u.UserGuid);
+                        single.IsOnline = user.Contexts.Any();
+                    }
+
+                    var chatsResult = new UpdateChatsResult();
+                    chatsResult.Users = usersResult;
+                    chatsResult.Chats = chats;
+                    chatsResult.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
+
+                    foreach (var u in _users)
+                    {
+                        try
+                        {
+                            foreach (var context in u.Contexts)
+                            {
+                                context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Write(LogLevel.Error, "Error callback message", e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.Write(LogLevel.Error, "Error callback message", e);
+                }
+            }
+        }
+
+        public async Task<GetChatResult> GetChat(Guid chatGuid)
+        {
+            var worker = DIFactory.Resolve<IDbSystemWorker>();
+            var history = await worker.GetChat(chatGuid);
+            return history;
         }
 
         IServiceMessengerCallback Callback

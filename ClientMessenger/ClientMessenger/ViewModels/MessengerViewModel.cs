@@ -18,6 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using ClientMessenger.Properties;
+using Microsoft.Win32;
 
 namespace ClientMessenger.ViewModels
 {
@@ -54,11 +55,13 @@ namespace ClientMessenger.ViewModels
             set
             {
                 _sendToUser = value;
-                MessengerModels.Clear();
+                if (value != null)
+                {
+                    GetChat?.Execute(value.ChatGuid);
+                }
                 OnPropertyChanged("SendToUser");
             }
         }
-
 
         private ObservableCollection<UserModel> _users = new ObservableCollection<UserModel>();
 
@@ -193,13 +196,14 @@ namespace ClientMessenger.ViewModels
                             Patronymic = user.Patronymic,
                             Email = user.Email,
                             IsOnline = user.IsOnline,
-                            Position = user.Position
-                        };
+                            Position = user.Position,
+                    };
                         
                         userModel.ChatGuid = chatGuid2 != Guid.Empty ? chatGuid2 : user.Guid;
                         userModel.EmployeePhoto = user.EmployeePhoto != null
                             ? ImageHelper.ByteToImageSource(user.EmployeePhoto)
                             : emptyPhoto;
+
                         Users.Add(userModel);
                     }
                 }
@@ -319,6 +323,73 @@ namespace ClientMessenger.ViewModels
                     if (obj is TextBox input)
                     {
                         input.Focus();
+                    }
+                }));
+            }
+        }
+
+        private ICommand _updatePhoto;
+
+        public ICommand UpdatePhoto
+        {
+            get
+            {
+                return _updatePhoto ?? (_updatePhoto = new BaseButtonCommand((obj) =>
+                {
+                    var filePath = String.Empty;
+
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Title = "Select a picture";
+                    openFileDialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        filePath = openFileDialog.FileName;
+                    }
+
+                    var photo = ImageHelper.GetImage(filePath);
+                    var photoData = ImageHelper.ImageSourceToByte(photo);
+                    var worker = DIFactory.Resolve<IServiceManager>();
+                    worker.UpdatePhoto(CurrentUser.Guid, photoData);
+                    CurrentUser.EmployeePhoto = photo;
+                }));
+            }
+        }
+
+        private ICommand _getChat;
+
+        public ICommand GetChat
+        {
+            get
+            {
+                return _getChat ?? (_getChat = new BaseButtonCommand(async (obj) =>
+                {
+                    var chatGuid = (Guid)obj;
+                    if (chatGuid != Guid.Empty)
+                    {
+                        MessengerModels.Clear();
+                        var worker = DIFactory.Resolve<IServiceManager>();
+                        var result = await worker.GetChat(chatGuid);
+                        foreach (var message in result.Messages)
+                        {
+                            if (message.ChatGuid == SendToUser.ChatGuid)
+                            {
+                                MessengerModel mes = new MessengerModel();
+                                mes.Date = message.DateCreate.ToShortDateString() + " " + message.DateCreate.ToShortTimeString();
+
+                                var user = Users.SingleOrDefault(x => x.Guid == message.UserGuid);
+                                if (user == null)
+                                {
+                                    mes.Nick = CurrentUser.Login;
+                                }
+                                else
+                                {
+                                    mes.Nick = user.Login;
+                                }
+
+                                mes.Message = message.Content;
+                                MessengerModels.Add(mes);
+                            }
+                        }
                     }
                 }));
             }

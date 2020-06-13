@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\
+C:\Users\maxwo\source\repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Debug\
 ServerMessenger
 none
 false
 DEBUG;TRACE
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\App.xaml
+C:\Users\maxwo\source\repos\shadoword70\messenger\ServerMessenger\ServerMessenger\App.xaml
 51155097104
 31505809854
 25-1211904523
-262044040190
+26-726253975
 MainWindow.xaml;Styles\BaseStyle.xaml;Views\EndpointControl.xaml;Views\ViewLogControl.xaml;Windows\AddEmployeeWindow.xaml;
 
 False

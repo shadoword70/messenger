@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations.History;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Db = DbWorker.DbElements;
 using System.Web;
+using Common.Results;
 using ServerMessenger.Helpers;
 
 namespace DbWorker
@@ -99,6 +101,7 @@ namespace DbWorker
                 employee.Position = dbEmployee.Position;
                 employee.Gender = dbEmployee.Gender;
                 employee.DateOfBirth = dbEmployee.DateOfBirth;
+                employee.Photo = dbEmployee.Photo != null ? Convert.FromBase64String(dbEmployee.Photo) : null;
                 return employee;
             }
         }
@@ -108,23 +111,28 @@ namespace DbWorker
             using (var context = new MessengerContext())
             {
                 var employees = new List<Employee>();
-                await context.Employee.ForEachAsync(x =>
+                var dbEmployees = await context.Employee.ToListAsync();
+                foreach (var x in dbEmployees)
                 {
-                    var employee = new Employee
-                    {
-                        Guid = x.Guid,
-                        Login = x.User.Login,
-                        Email = x.User.Email,
-                        Surname = x.Surname,
-                        Name = x.Name,
-                        Patronymic = x.Patronymic,
-                        DateOfBirth = x.DateOfBirth,
-                        Position = x.Position,
-                        Gender = x.Gender
-                    };
+                    var employee = new Employee();
+
+                    employee.Guid = x.Guid;
+                    employee.Surname = x.Surname;
+                    employee.Name = x.Name;
+                    employee.Patronymic = x.Patronymic;
+                    employee.DateOfBirth = x.DateOfBirth;
+                    employee.Position = x.Position;
+                    employee.Gender = x.Gender;
+
+                    var photo = x.Photo == null ? null : Convert.FromBase64String(x.Photo);
+                    employee.Photo = photo;
+
+                    var user = x.User;
+                    employee.Login = user.Login;
+                    employee.Email = user.Email;
 
                     employees.Add(employee);
-                });
+                }
                 
                 return employees;
             }
@@ -252,6 +260,60 @@ namespace DbWorker
 
                 return chatGuid;
             }
+        }
+        
+        public async Task UpdatePhoto(Guid userGuid, string photo)
+        {
+            using (var context = new MessengerContext())
+            {
+                var user = context.Employee.Single(x => x.Guid == userGuid);
+                user.Photo = photo;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<GetChatResult> GetChat(Guid chatGuid)
+        {
+            using (var context = new MessengerContext())
+            {
+                var dbMessages = await context.Message.Where(x => x.ChatGuid == chatGuid).ToListAsync();
+                var history = new GetChatResult();
+                history.Messages = new List<Message>();
+                foreach (var dbMessage in dbMessages)
+                {
+                    var message = new Message();
+                    message.UserGuid = dbMessage.UserGuid;
+                    message.ChatGuid = dbMessage.ChatGuid;
+                    message.Content = dbMessage.Content;
+                    message.DateCreate = dbMessage.DateCreate;
+                    message.Guid = dbMessage.Guid;
+
+                    message.Employee = new Employee();
+                    var dbUser = dbMessage.User;
+                    message.Employee.Login = dbUser.Login;
+                    message.Employee.Email = dbUser.Email;
+                    message.Employee.Guid = dbUser.Guid;
+
+                    var dbEmployee = dbUser.Employee;
+                    message.Employee.Surname = dbEmployee.Surname;
+                    message.Employee.Name = dbEmployee.Name;
+                    message.Employee.Patronymic = dbEmployee.Patronymic;
+                    message.Employee.Position = dbEmployee.Position;
+
+                    message.MessageStatus = new MessageStatus();
+                    foreach (var dbMessageMessageStatus in dbMessage.MessageStatuses)
+                    {
+                        message.MessageStatus.UserGuid = dbMessageMessageStatus.UserGuid;
+                        message.MessageStatus.MessageGuid = dbMessageMessageStatus.MessageGuid;
+                        message.MessageStatus.IsRead = dbMessageMessageStatus.IsRead;
+                    }
+
+                    history.Messages.Add(message);
+                }
+
+                return history;
+            }
+
         }
     }
 }

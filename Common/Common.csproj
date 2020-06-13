@@ -55,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultBody.cs" />
     <Compile Include="ResultStatus.cs" />
+    <Compile Include="Results\GetChatResult.cs" />
     <Compile Include="Results\UpdateChatsResult.cs" />
     <Compile Include="Results\AuthorizationResult.cs" />
   </ItemGroup>

@@ -51,7 +51,7 @@
                     </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Отчетсво"></TextBlock>
+                    <TextBlock Text="Отчество"></TextBlock>
                     <TextBox Style="{StaticResource BaseTextBox}">
                         <TextBox.Text>
                             <Binding Path="Patronymic" UpdateSourceTrigger="PropertyChanged">
@@ -107,7 +107,7 @@
                     </TextBox>
                 </StackPanel>
             </StackPanel>
-            <Button Width="100" Content="Add Employee" VerticalAlignment="Bottom" Command="{Binding AddEmployee}" CommandParameter="{Binding ElementName=EmployeeWindow}" Margin="0 90 0 0">
+            <Button Width="150" Content="Добавить пользователя" VerticalAlignment="Bottom" Command="{Binding AddEmployee}" CommandParameter="{Binding ElementName=EmployeeWindow}" Margin="0 90 0 0">
             </Button>
         </StackPanel>
         <Grid Grid.Column="0" Visibility="{Binding IsVisibleLoading, Converter={StaticResource BooleanToVisibilityConverter}}">

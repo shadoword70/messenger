@@ -35,6 +35,7 @@ namespace WcfService
                 Uri address = new Uri($"net.tcp://{_ip}:{_port}/IServiceMessenger");
 
                 NetTcpBinding binding = new NetTcpBinding();
+                binding.MaxReceivedMessageSize = Int32.MaxValue;
                 Type concract = typeof(IServiceMessenger);
 
                 var messenger = new ServiceMessenger(_logger);

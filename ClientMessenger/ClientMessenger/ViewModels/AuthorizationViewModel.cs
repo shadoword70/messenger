@@ -7,6 +7,7 @@ using ServiceWorker;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ClientMessenger.Properties;
@@ -83,7 +84,6 @@ namespace ClientMessenger.ViewModels
                         return;
                     }
                     IsVisibleLoading = true;
-
                     try
                     {
                         var manager = DIFactory.Resolve<IServiceManager>();

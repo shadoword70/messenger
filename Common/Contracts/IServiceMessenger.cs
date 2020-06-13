@@ -17,6 +17,12 @@ namespace Common.Contracts
 
         [OperationContract(IsOneWay = true)]
         void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message);
+
+        [OperationContract(IsOneWay = true)]
+        void UpdatePhoto(Guid userGuid, byte[] photo);
+
+        [OperationContract]
+        Task<GetChatResult> GetChat(Guid chatGuid);
     }
 
     [ServiceContract]

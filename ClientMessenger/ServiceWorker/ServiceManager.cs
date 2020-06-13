@@ -38,10 +38,9 @@ namespace ServiceWorker
                 Uri address = new Uri($"net.tcp://{ip}:{port}/IServiceMessenger");
 
                 NetTcpBinding binding = new NetTcpBinding();
-
+                binding.MaxReceivedMessageSize = Int32.MaxValue;
                 EndpointAddress endpoint = new EndpointAddress(address);
                 InstanceContext instanceContext = new InstanceContext(callback);
-
                 DuplexChannelFactory<IServiceMessenger> factory =
                     new DuplexChannelFactory<IServiceMessenger>(instanceContext, binding, endpoint);
                 _channel = factory.CreateChannel();
@@ -51,7 +50,7 @@ namespace ServiceWorker
                 _timer.Elapsed += TimerOnElapsed;
                 _lastConnect = DateTime.Now;
             }
-            catch
+            catch (Exception ex)
             {
 
             }
@@ -104,7 +103,24 @@ namespace ServiceWorker
             }
             catch
             {
+
             }
+        }
+
+        public void UpdatePhoto(Guid userGuid, byte[] photo)
+        {
+            try
+            {
+                _channel.UpdatePhoto(userGuid, photo);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task<GetChatResult> GetChat(Guid chatGuid)
+        {
+            return await _channel.GetChat(chatGuid);
         }
     }
 }

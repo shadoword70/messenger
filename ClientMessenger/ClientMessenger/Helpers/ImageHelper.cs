@@ -17,6 +17,7 @@ namespace ClientMessenger.Helpers
             {
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
                 image.StreamSource = byteStream;
                 image.EndInit();
                 return image;
@@ -43,12 +44,12 @@ namespace ClientMessenger.Helpers
             using (MemoryStream ms = new MemoryStream())
             {
                 encoder.Save(ms);
-                ms.Position = 0;
                 bitmapBytes = ms.ToArray();
             }
 
             return bitmapBytes;
         }
+
 
         public static BitmapImage GetImage(string filePath)
         {
