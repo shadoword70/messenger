@@ -4,10 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ServerMessenger.Views"
+             xmlns:viewModels="clr-namespace:ServerMessenger.ViewModels"
+             xmlns:behaviors="clr-namespace:ServerMessenger.Behaviors"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewModels:ViewLogViewModel/>
+    </UserControl.DataContext>
     <StackPanel>
-        <TextBox Height="300" Width="550" Margin="5" IsReadOnly="True" Text="{Binding Text, Mode=TwoWay}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"></TextBox>
+        <TextBox Height="300" Width="550" Margin="5" IsReadOnly="True" Text="{Binding Text, Mode=TwoWay}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap">
+            <i:Interaction.Behaviors>
+                <behaviors:ScrollIntoViewBehavior/>
+            </i:Interaction.Behaviors>
+        </TextBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Width="100" Margin="5" Content="Stop" Command="{Binding Stop}"></Button>
             <Button Width="100" Margin="5" Content="Add Employee" Command="{Binding AddEmployee}"></Button>

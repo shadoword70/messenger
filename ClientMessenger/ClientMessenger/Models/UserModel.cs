@@ -13,7 +13,6 @@ namespace ClientMessenger.Models
     public class UserModel : INotifyPropertyChanged
     {
         public Guid Guid { get; set; }
-        public Guid? ChatGuid { get; set; }
 
         private string _login;
 
@@ -62,7 +61,7 @@ namespace ClientMessenger.Models
 
         public string Email { get; set; }
 
-        public bool _isOnline;
+        private bool _isOnline;
         public bool IsOnline
         {
             get
@@ -80,7 +79,15 @@ namespace ClientMessenger.Models
         {
             get
             {
-                return Surname + " " + Name;
+                return Surname + " " + Name.Substring(0, 1).ToUpper() + ". " + Patronymic.Substring(0, 1).ToUpper() + ".";
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return Surname + " " + Name + " " + Patronymic;
             }
         }
 

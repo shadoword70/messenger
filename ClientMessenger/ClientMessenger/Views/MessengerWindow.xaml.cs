@@ -2,6 +2,8 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using ClientMessenger.Helpers;
+using ServiceWorker;
 
 namespace ClientMessenger.Views
 {
@@ -49,6 +51,12 @@ namespace ClientMessenger.Views
         // Close
         protected void CommandBinding_Executed_Close(object sender, ExecutedRoutedEventArgs e)
         {
+            if (DataContext is MessengerViewModel model)
+            {
+                var manager = DIFactory.Resolve<IServiceManager>();
+                manager.Disconnect(model.CurrentUser.Guid);
+            }
+
             SystemCommands.CloseWindow(this);
         }
     }

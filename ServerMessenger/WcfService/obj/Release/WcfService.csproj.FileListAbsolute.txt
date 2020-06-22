@@ -10,3 +10,13 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.csproj.CopyComplete
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\obj\Release\WcfService.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\DbWorker.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\Ninject.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\ServerHelper.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\DevOne.Security.Cryptography.BCrypt.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\EntityFramework.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\DbWorker.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\DbWorker.dll.config
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\ServerHelper.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\Ninject.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\WcfService\bin\Release\EntityFramework.xml

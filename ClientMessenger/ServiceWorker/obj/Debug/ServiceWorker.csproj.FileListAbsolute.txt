@@ -10,10 +10,10 @@ C:\Users\maxwo\source\repos\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorke
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\ServiceWorker.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\ServiceWorker.pdb
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\DevOne.Security.Cryptography.BCrypt.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\Common.pdb
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorker.csprojAssemblyReference.cache
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorker.csproj.CoreCompileInputs.cache
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorker.csproj.CopyComplete
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorker.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\obj\Debug\ServiceWorker.pdb
-C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ServiceWorker\bin\Debug\DevOne.Security.Cryptography.BCrypt.dll

@@ -12,3 +12,7 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\R
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Release\DbWorker.pdb
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Release\DbWorker.Migrations.InitialCreate.resources
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Release\DbWorker.csproj.GenerateResource.cache
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Release\Common.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Release\DevOne.Security.Cryptography.BCrypt.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\bin\Release\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\DbWorker\obj\Release\DbWorker.Migrations.AddEmployeePhoto.resources

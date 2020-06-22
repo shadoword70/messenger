@@ -1,0 +1,72 @@
+﻿<Window x:Class="ClientMessenger.Views.CreateGroupChatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientMessenger.Views"
+        xmlns:viewModels="clr-namespace:ClientMessenger.ViewModels"
+        mc:Ignorable="d"
+        Title="CreateGroupChatWindow" Height="400" Width="300" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Style="{StaticResource CustomWindow}">
+    <Window.DataContext>
+        <viewModels:CreateGroupChatViewModel/>
+    </Window.DataContext>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource CustomTextBox}"/>
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource CustomLabel}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="0 0 0 10">
+            <Label Content="Название чата"/>
+            <TextBox Text="{Binding Model.ChatName}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Label Content="Пользователи"></Label>
+            <ListBox x:Name="UsersListBox" ItemContainerStyle="{StaticResource CustomListBoxItem}" Style="{StaticResource CustomListBox}" 
+                     ItemsSource="{Binding Model.Users, UpdateSourceTrigger=PropertyChanged}"
+                     Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SelectionMode="Multiple" Margin="0 0 0 10" ScrollViewer.CanContentScroll="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Ellipse Height="50" Width="50" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center"
+                                         StrokeThickness="0.6" Stroke="Transparent" StrokeDashCap="Round">
+                                <Ellipse.Fill>
+                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding EmployeePhoto}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                                <TextBlock Style="{StaticResource CustomTextBlock}" Height="20" Margin="5 0 0 0" Text="{Binding ShortName}" FontSize="13"/>
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource CustomTextBlock}" Height="20" Grid.Column="1" Grid.Row="1" Margin="5 0 0 0" Text="{Binding Position}" FontSize="13"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <Button Grid.Row="2" Style="{StaticResource CustomButton}" Content="Создать" Command="{Binding CreateGroupChat}" CommandParameter="{Binding ElementName=UsersListBox}"></Button>
+    </Grid>
+</Window>

@@ -118,5 +118,4 @@
             <fa:ImageAwesome Icon="Refresh" Spin="True" SpinDuration="3" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
     </Grid>
-    
 </Window>

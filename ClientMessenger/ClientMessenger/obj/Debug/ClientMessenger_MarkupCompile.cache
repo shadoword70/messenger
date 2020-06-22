@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\maxwo\source\repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Debug\
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Debug\
 ClientMessenger
 none
 false
 DEBUG;TRACE
-C:\Users\maxwo\source\repos\shadoword70\messenger\ClientMessenger\ClientMessenger\App.xaml
-51996852186
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\App.xaml
+82044424495
 5-352803268
-2695350609
-201474459421
-MainWindow.xaml;Styles\WindowStyle.xaml;Views\ConnectControl.xaml;Views\MessengerWindow.xaml;Views\AuthorizationControl.xaml;
+36599154093
+20-1385058267
+MainWindow.xaml;Styles\WindowStyle.xaml;Views\ChangePasswordWindow.xaml;Views\ConnectControl.xaml;Views\CreateGroupChatWindow.xaml;Views\MessengerWindow.xaml;Views\AuthorizationControl.xaml;Views\SettingsControl.xaml;
 
 False
 

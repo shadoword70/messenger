@@ -50,6 +50,11 @@ namespace ServerMessenger.ViewModels
             logger.RaiseLogger += LoggerOnRaiseLogger;
         }
 
+        public ViewLogViewModel()
+        {
+            LogData = new ViewLogModel();
+        }
+
         private void LoggerOnRaiseLogger(object sender, string e)
         {
             Text += e + Environment.NewLine;

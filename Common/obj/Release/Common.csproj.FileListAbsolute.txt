@@ -4,3 +4,5 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Release\Common.cspr
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Release\Common.csproj.CoreCompileInputs.cache
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Release\Common.dll
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Release\Common.pdb
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\bin\Release\DevOne.Security.Cryptography.BCrypt.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\Common\obj\Release\Common.csproj.CopyComplete

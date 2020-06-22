@@ -18,14 +18,12 @@ namespace Common.Results
         public ResultBody InfoBody { get; set; }
 
         [DataMember]
-        public List<Party> Chats { get; set; }
+        public List<Chat> Chats { get; set; }
     }
 
     public class User
     {
         public Guid Guid { get; set; }
-
-        public Guid ChatGuid { get; set; }
 
         public string Name { get; set; }
 
@@ -42,5 +40,21 @@ namespace Common.Results
         public bool IsOnline { get; set; }
 
         public byte[] EmployeePhoto { get; set; }
+
+        public string ShortName
+        {
+            get
+            {
+                return Surname + " " + Name.Substring(0, 1).ToUpper() + ". " + Patronymic.Substring(0, 1).ToUpper() + ".";
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return Surname + " " + Name + " " + Patronymic;
+            }
+        }
     }
 }

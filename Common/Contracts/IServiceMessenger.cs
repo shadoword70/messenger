@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using Common.Request;
 using Common.Results;
 
 namespace Common.Contracts
 {
-    [ServiceContract(CallbackContract = typeof(IServiceMessengerCallback))]
+    [ServiceContract(SessionMode = SessionMode.Allowed, CallbackContract = typeof(IServiceMessengerCallback))]
     public interface IServiceMessenger
     {
         [OperationContract]
@@ -23,6 +24,15 @@ namespace Common.Contracts
 
         [OperationContract]
         Task<GetChatResult> GetChat(Guid chatGuid);
+
+        [OperationContract(IsOneWay = true)]
+        void CreateGroupChat(CreateGroupChatRequest request);
+
+        [OperationContract(IsOneWay = true)]
+        void CreateChat(Guid userGuid, Guid creatorGuid);
+
+        [OperationContract]
+        Task<ResultBody> ChangePassword(Guid selfGuid, string oldPassword, string newPassword);
     }
 
     [ServiceContract]

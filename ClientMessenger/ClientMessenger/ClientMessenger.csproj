@@ -71,11 +71,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\ScrollIntoViewBehavior.cs" />
     <Compile Include="Commands\BaseButtonCommand.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
+    <Compile Include="CustomControls\ScrollingListBox.cs" />
     <Compile Include="Helpers\DIFactory.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\ChatModel.cs" />
+    <Compile Include="Models\CreateGroupChatModel.cs" />
     <Compile Include="Models\MessengerModel.cs" />
     <Compile Include="Models\AuthorizationModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -84,18 +89,29 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Validations\PortValidationRule.cs" />
     <Compile Include="Validations\IpValidationRule.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\CreateGroupChatViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ConnectViewModel.cs" />
     <Compile Include="ViewModels\MessengerViewModel.cs" />
     <Compile Include="ViewModels\AuthorizationViewModel.cs" />
+    <Compile Include="Views\ChangePasswordWindow.xaml.cs">
+      <DependentUpon>ChangePasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConnectControl.xaml.cs">
       <DependentUpon>ConnectControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateGroupChatWindow.xaml.cs">
+      <DependentUpon>CreateGroupChatWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MessengerWindow.xaml.cs">
       <DependentUpon>MessengerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AuthorizationControl.xaml.cs">
       <DependentUpon>AuthorizationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsControl.xaml.cs">
+      <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -113,7 +129,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChangePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConnectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateGroupChatWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AuthorizationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

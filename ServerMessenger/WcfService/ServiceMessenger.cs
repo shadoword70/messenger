@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common;
 using Common.Contracts;
+using Common.Request;
 using Common.Results;
 using DbWorker;
 using LoggerWorker;
@@ -14,7 +15,7 @@ using ServerHelper;
 
 namespace WcfService
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class ServiceMessenger : IServiceMessenger
     {
         private ILogger _logger;
@@ -28,9 +29,8 @@ namespace WcfService
 
         public async Task<AuthorizationResult> AuthorizationClient(string login, string password)
         {
-            var currentContext = OperationContext.Current;
             AuthorizationResult result = new AuthorizationResult();
-            
+            var callback = Callback;
             if (String.IsNullOrEmpty(login))
             {
                 result.InfoBody = new ResultBody
@@ -65,38 +65,55 @@ namespace WcfService
 
             _logger.Write(LogLevel.Info, DateTime.Now + " " + login + " Connect");
 
-            var employees = await dbWorker.GetEmployees();
-            var chats = await dbWorker.GetUserChats(employee.Guid);
-
             var queueUser = _users.SingleOrDefault(x => x.UserGuid == employee.Guid);
             if (queueUser == null)
             {
                 var user = new User();
                 user.UserGuid = employee.Guid;
-                user.Contexts.Add(currentContext);
+                user.Callbacks.Add(callback);
                 _users.Add(user);
             }
             else
             {
-                queueUser.Contexts.Add(currentContext);
+                queueUser.Callbacks.Add(callback);
             }
 
-            //var usersResult = employees.DefaultIfEmpty().Join(_users.DefaultIfEmpty(),
-            //    dbEmployee => dbEmployee.Guid,
-            //    queueEmployee => queueEmployee.UserGuid,
-            //    (dbEmployee, queueEmployee) => 
-            //        new Common.Results.User
-            //        {
-            //            Guid = dbEmployee.Guid,
-            //            Email = dbEmployee.Email,
-            //            Login = dbEmployee.Login,
-            //            Surname = dbEmployee.Surname,
-            //            Patronymic = dbEmployee.Patronymic,
-            //            Position = dbEmployee.Position,
-            //            Name = dbEmployee.Name,
-            //            IsOnline = queueEmployee.Contexts.Any()
-            //        }).ToList();
+            var employees = await dbWorker.GetEmployees();
+            var usersResult = employees.Select(dbEmployee => new Common.Results.User
+            {
+                Guid = dbEmployee.Guid,
+                Email = dbEmployee.Email,
+                Login = dbEmployee.Login,
+                Surname = dbEmployee.Surname,
+                Patronymic = dbEmployee.Patronymic,
+                Position = dbEmployee.Position,
+                Name = dbEmployee.Name,
+                EmployeePhoto = dbEmployee.Photo,
+            }).ToList();
 
+            foreach (var user in _users)
+            {
+                try
+                {
+                    NeedUpdateChats(user.UserGuid);
+                }
+                catch (Exception e)
+                {
+                    _logger.Write(LogLevel.Error, "Error message: ", e);
+                }
+            }
+
+            result.Employee = employee;
+            result.Users = usersResult;
+            result.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
+            
+            return result;
+        }
+
+        private async void NeedUpdateChats(Guid employeeGuid)
+        {
+            var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+            var employees = await dbWorker.GetEmployees();
             var usersResult = employees.Select(dbEmployee => new Common.Results.User
             {
                 Guid = dbEmployee.Guid,
@@ -112,35 +129,61 @@ namespace WcfService
             foreach (var user in _users)
             {
                 var single = usersResult.Single(x => x.Guid == user.UserGuid);
-                single.IsOnline = user.Contexts.Any();
+                single.IsOnline = user.Callbacks.Any();
             }
 
-            var chatsResult = new UpdateChatsResult();
-            chatsResult.Users = usersResult;
-            chatsResult.Chats = chats;
-            chatsResult.InfoBody = new ResultBody {ResultStatus = ResultStatus.Success};
-
-            foreach (var u in _users)
+            var chats = await dbWorker.GetUserChats(employeeGuid);
+            var needUpdateUsers = chats.Where(x => x.UserGuids.Count == 2).Select(x => x.UserGuids.First(y => y != employeeGuid)).Distinct().ToList();
+            
+            try
             {
-                try
+                var selfUser = _users.SingleOrDefault(x => x.UserGuid == employeeGuid);
+                var chatsResult = new UpdateChatsResult();
+                chatsResult.Users = usersResult;
+                chatsResult.Chats = chats;
+                chatsResult.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
+                if (selfUser != null)
                 {
-                    foreach (var context in u.Contexts)
+                    foreach (var callback in selfUser.Callbacks)
                     {
-                        context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
+                        try
+                        {
+                            callback.UpdateChats(chatsResult);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Write(LogLevel.Error, "Error callback message", e);
+                        }
                     }
                 }
-                catch (Exception e)
-                {
-                    _logger.Write(LogLevel.Error, "Error callback message", e);
-                }
+            }
+            catch (Exception e)
+            {
+                _logger.Write(LogLevel.Error, "Error callback message", e);
             }
 
-            result.Employee = employee;
-            result.Users = usersResult;
-            result.Chats = chats;
-            result.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
-            
-            return result;
+            foreach (var updateUser in needUpdateUsers)
+            {
+                var u = _users.SingleOrDefault(x => x.UserGuid == updateUser);
+                if (u != null)
+                {
+                    foreach (var callback in u.Callbacks)
+                    {
+                        try
+                        {
+                            var chatsResult = new UpdateChatsResult();
+                            chatsResult.Users = usersResult;
+                            chatsResult.Chats = await dbWorker.GetUserChats(updateUser);
+                            chatsResult.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
+                            callback.UpdateChats(chatsResult);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Write(LogLevel.Error, "Error callback message", e);
+                        }
+                    }
+                }
+            }
         }
 
         public ResultBody DisconnectClient(Guid userGuid)
@@ -154,6 +197,11 @@ namespace WcfService
                     _users.Remove(disUser);
                 }
 
+                foreach (var user in _users)
+                {
+                    NeedUpdateChats(user.UserGuid);
+                }
+
                 return new ResultBody { ResultStatus = ResultStatus.Success };
             }
             catch (Exception e)
@@ -164,70 +212,27 @@ namespace WcfService
 
         }
 
-        public async void SendMessage(Guid selfGuid, Guid chatOrUserGuid, string message)
+        public async void SendMessage(Guid selfGuid, Guid chatGuid, string message)
         {
-            //var callback = Callback;
-            _logger.Write(LogLevel.Info, DateTime.Now + " " + chatOrUserGuid + " " + message);
+            _logger.Write(LogLevel.Info, DateTime.Now + " " + chatGuid + " " + message);
             var worker = DIFactory.Resolve<IDbSystemWorker>();
             var date = DateTime.Now;
-            var chatGuid = await worker.SaveMessage(selfGuid, chatOrUserGuid, message, date);
-
-            //callback.MessageCallback(date, chatGuid, message, selfGuid);
-
-            foreach (var user in _users)
+            await worker.SaveMessage(selfGuid, chatGuid, message, date);
+            
+            var updateChatUsers = await worker.GetUserFromChat(chatGuid);
+            var updateUser = _users.Where(x => updateChatUsers.Contains(x.UserGuid));
+            foreach (var user in updateUser)
             {
-                try
+                foreach (var callback in user.Callbacks)
                 {
-                    var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
-                    var employees = await dbWorker.GetEmployees();
-                    var chats = await dbWorker.GetUserChats(user.UserGuid);
-
-                    var usersResult = employees.Select(dbEmployee => new Common.Results.User
+                    try
                     {
-                        Guid = dbEmployee.Guid,
-                        Email = dbEmployee.Email,
-                        Login = dbEmployee.Login,
-                        Surname = dbEmployee.Surname,
-                        Patronymic = dbEmployee.Patronymic,
-                        Position = dbEmployee.Position,
-                        Name = dbEmployee.Name,
-                        EmployeePhoto = dbEmployee.Photo
-                    }).ToList();
-
-                    foreach (var u in _users)
-                    {
-                        var single = usersResult.Single(x => x.Guid == u.UserGuid);
-                        single.IsOnline = user.Contexts.Any();
+                        callback.MessageCallback(date, chatGuid, message, selfGuid);
                     }
-
-                    var chatsResult = new UpdateChatsResult();
-                    chatsResult.Users = usersResult;
-                    chatsResult.Chats = chats;
-                    chatsResult.InfoBody = new ResultBody {ResultStatus = ResultStatus.Success};
-
-                    foreach (var u in _users)
+                    catch (Exception e)
                     {
-                        try
-                        {
-                            foreach (var context in u.Contexts)
-                            {
-                                context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Write(LogLevel.Error, "Error callback message", e);
-                        }
+                        _logger.Write(LogLevel.Error, "Error callback message", e);
                     }
-
-                    foreach (var context in user.Contexts)
-                    {
-                        context.GetCallbackChannel<IServiceMessengerCallback>().MessageCallback(date, chatGuid, message, selfGuid);
-                    }
-                }
-                catch (Exception e)
-                {
-                    _logger.Write(LogLevel.Error, "Error callback message", e);
                 }
             }
         }
@@ -236,52 +241,12 @@ namespace WcfService
         {
             var worker = DIFactory.Resolve<IDbSystemWorker>();
             await worker.UpdatePhoto(userGuid, Convert.ToBase64String(photo));
-
+            
             foreach (var user in _users)
             {
                 try
                 {
-                    var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
-                    var employees = await dbWorker.GetEmployees();
-                    var chats = await dbWorker.GetUserChats(user.UserGuid);
-
-                    var usersResult = employees.Select(dbEmployee => new Common.Results.User
-                    {
-                        Guid = dbEmployee.Guid,
-                        Email = dbEmployee.Email,
-                        Login = dbEmployee.Login,
-                        Surname = dbEmployee.Surname,
-                        Patronymic = dbEmployee.Patronymic,
-                        Position = dbEmployee.Position,
-                        Name = dbEmployee.Name,
-                        EmployeePhoto = dbEmployee.Photo
-                    }).ToList();
-
-                    foreach (var u in _users)
-                    {
-                        var single = usersResult.Single(x => x.Guid == u.UserGuid);
-                        single.IsOnline = user.Contexts.Any();
-                    }
-
-                    var chatsResult = new UpdateChatsResult();
-                    chatsResult.Users = usersResult;
-                    chatsResult.Chats = chats;
-                    chatsResult.InfoBody = new ResultBody { ResultStatus = ResultStatus.Success };
-
-                    foreach (var u in _users)
-                    {
-                        try
-                        {
-                            foreach (var context in u.Contexts)
-                            {
-                                context.GetCallbackChannel<IServiceMessengerCallback>().UpdateChats(chatsResult);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.Write(LogLevel.Error, "Error callback message", e);
-                        }
-                    }
+                    NeedUpdateChats(user.UserGuid);
                 }
                 catch (Exception e)
                 {
@@ -297,12 +262,50 @@ namespace WcfService
             return history;
         }
 
-        IServiceMessengerCallback Callback
+        public async void CreateGroupChat(CreateGroupChatRequest request)
         {
-            get
+            var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+            await dbWorker.CreateGroupChat(request.ChatName, request.CreatorGuid, request.UserGuids);
+
+            foreach (var user in _users)
             {
-                return OperationContext.Current.GetCallbackChannel<IServiceMessengerCallback>();
+                try
+                {
+                    NeedUpdateChats(user.UserGuid);
+                }
+                catch (Exception e)
+                {
+                    _logger.Write(LogLevel.Error, "Error callback message", e);
+                }
+            }
+
+        }
+
+        public async void CreateChat(Guid userGuid, Guid creatorGuid)
+        {
+            var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+            await dbWorker.CreateChat(userGuid, creatorGuid);
+            
+            foreach (var user in _users)
+            {
+                try
+                {
+                    NeedUpdateChats(user.UserGuid);
+                }
+                catch (Exception e)
+                {
+                    _logger.Write(LogLevel.Error, "Error callback message", e);
+                }
             }
         }
+
+        public async Task<ResultBody> ChangePassword(Guid selfGuid, string oldPassword, string newPassword)
+        {
+            var dbWorker = DIFactory.Resolve<IDbSystemWorker>();
+            var result = await dbWorker.ChangePassword(selfGuid, oldPassword, newPassword);
+            return result;
+        }
+
+        IServiceMessengerCallback Callback => OperationContext.Current.GetCallbackChannel<IServiceMessengerCallback>();
     }
 }

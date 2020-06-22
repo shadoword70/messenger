@@ -10,11 +10,11 @@ none
 false
 TRACE
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\App.xaml
-4160511672
-
-221814476782
-161302391654
-MainWindow.xaml;Views\ConnectControl.xaml;Views\MessengerWindow.xaml;Views\RegistrationControl.xaml;
+6393182695
+5-352803268
+27-575787644
+20-1626847089
+MainWindow.xaml;Styles\WindowStyle.xaml;Views\ConnectControl.xaml;Views\MessengerWindow.xaml;Views\AuthorizationControl.xaml;Views\SettingsControl.xaml;
 
 False
 

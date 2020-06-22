@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Common;
 using Common.Contracts;
+using Common.Request;
 using Common.Results;
 
 namespace ServiceWorker
@@ -14,13 +15,13 @@ namespace ServiceWorker
     public class ServiceManager : IServiceManager
     {
         public event EventHandler Disconnected;
+
         private Timer _timer;
         private DateTime _lastConnect;
         private IServiceMessenger _channel;
         private string _ip;
         private string _port;
         private IMessageCallback _callback;
-
 
         public ServiceManager(string ip, string port, IMessageCallback callback)
         {
@@ -39,10 +40,12 @@ namespace ServiceWorker
 
                 NetTcpBinding binding = new NetTcpBinding();
                 binding.MaxReceivedMessageSize = Int32.MaxValue;
+
                 EndpointAddress endpoint = new EndpointAddress(address);
                 InstanceContext instanceContext = new InstanceContext(callback);
-                DuplexChannelFactory<IServiceMessenger> factory =
-                    new DuplexChannelFactory<IServiceMessenger>(instanceContext, binding, endpoint);
+                DuplexChannelFactory<IServiceMessenger> factory = new DuplexChannelFactory<IServiceMessenger>(instanceContext, binding, endpoint);
+                factory.Closed += FactoryOnClosed;
+                factory.Faulted += FactoryOnClosed;
                 _channel = factory.CreateChannel();
                 _timer = new Timer(10000);
                 _timer.Enabled = true;
@@ -54,6 +57,11 @@ namespace ServiceWorker
             {
 
             }
+        }
+
+        private void FactoryOnClosed(object sender, EventArgs e)
+        {
+            Disconnected?.Invoke(sender, e);
         }
 
         private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -78,7 +86,7 @@ namespace ServiceWorker
             catch (Exception ex)
             {
                 InitiationChannel(_ip, _port, _callback);
-                return new AuthorizationResult { InfoBody = new ResultBody {ResultStatus = ResultStatus.NotSuccess, Message = ex.Message}};
+                return new AuthorizationResult { InfoBody = new ResultBody { ResultStatus = ResultStatus.NotSuccess, Message = ex.Message } };
             }
         }
 
@@ -115,12 +123,28 @@ namespace ServiceWorker
             }
             catch (Exception ex)
             {
+
             }
         }
 
         public async Task<GetChatResult> GetChat(Guid chatGuid)
         {
             return await _channel.GetChat(chatGuid);
+        }
+
+        public void CreateGroupChat(CreateGroupChatRequest request)
+        {
+            _channel.CreateGroupChat(request);
+        }
+
+        public void CreateChat(Guid userGuid, Guid creatorGuid)
+        {
+            _channel.CreateChat(userGuid, creatorGuid);
+        }
+
+        public async Task<ResultBody> ChangePassword(Guid selfGuid, string oldPassword, string newPassword)
+        {
+            return await _channel.ChangePassword(selfGuid, oldPassword, newPassword);
         }
     }
 }

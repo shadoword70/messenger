@@ -138,38 +138,33 @@ namespace DbWorker
             }
         }
 
-        public async Task<Dictionary<Guid, List<Party>>> GetChats(Guid userGuid)
-        {
-            using (var context = new MessengerContext())
-            {
-                var dbParties = await context.Party.Where(x => x.UserGuid == userGuid)
-                    .GroupBy(x => x.ChatGuid)
-                    .ToDictionaryAsync(x =>
-                        x.Key, p =>
-                        p.Where(x => x.UserGuid != userGuid)
-                            .Select(x => new Party { UserGuid = x.UserGuid, ChatGuid = x.ChatGuid}).ToList());
-                return dbParties;
-            }
-        }
-
-        public async Task<List<Party>> GetUserChats(Guid userGuid)
+        public async Task<List<Chat>> GetUserChats(Guid userGuid)
         {
             using (var context = new MessengerContext())
             {
                 var dbUserChatGuids = await context.Party.Where(x => x.UserGuid == userGuid).Select(x => x.ChatGuid).ToListAsync();
-                var dbParties = await context.Party.Where(x => dbUserChatGuids.Contains(x.ChatGuid))
-                    .Select(x => new Party {ChatGuid = x.ChatGuid, UserGuid = x.UserGuid}).ToListAsync();
-                return dbParties;
+                var dbChats = await context.Chat.Where(x => dbUserChatGuids.Contains(x.Guid))
+                    .GroupJoin(
+                        context.Party, 
+                        chat => chat.Guid, 
+                        party => party.ChatGuid,
+                        (chat, parties) => new Chat
+                        {
+                            ChatGuid = chat.Guid, 
+                            ChatName = chat.Name,
+                            UserGuids = 
+                                parties.Select(x => x.UserGuid).ToList()
+                        }).ToListAsync();
+                return dbChats;
             }
         }
 
-        public async Task<Guid> SaveMessage(Guid selfGuid, Guid chatOrUserGuid, string message, DateTime date)
+        public async Task SaveMessage(Guid selfGuid, Guid chatGuid, string message, DateTime date)
         {
             using (var context = new MessengerContext())
             {
-                Guid chatGuid;
                 var messageGuid = Guid.NewGuid();
-                var dbParties = context.Party.Where(x => x.ChatGuid == chatOrUserGuid);
+                var dbParties = context.Party.Where(x => x.ChatGuid == chatGuid);
                 if (dbParties.Any())
                 {
                     var dbMessage = new Db.Message
@@ -177,7 +172,7 @@ namespace DbWorker
                         Guid = messageGuid,
                         UserGuid = selfGuid,
                         Content = message,
-                        ChatGuid = chatOrUserGuid,
+                        ChatGuid = chatGuid,
                         DateCreate = date
                     };
 
@@ -198,67 +193,9 @@ namespace DbWorker
                     }
 
                     context.MessageStatus.AddRange(messageStatuses);
-                    chatGuid = chatOrUserGuid;
-                }
-                else
-                {
-                    Guid dbChatGuid = Guid.NewGuid();
-                    Db.Chat dbChat = new Db.Chat
-                    {
-                        Guid = dbChatGuid
-                    };
-
-                    context.Chat.Add(dbChat);
-
-                    Db.Party party1 = new Db.Party
-                    {
-                        ChatGuid = dbChatGuid,
-                        UserGuid = selfGuid,
-                    };
-
-                    Db.Party party2 = new Db.Party
-                    {
-                        ChatGuid = dbChatGuid,
-                        UserGuid = chatOrUserGuid,
-                    };
-
-                    context.Party.Add(party1);
-                    context.Party.Add(party2);
-
-                    var dbMessage = new Db.Message
-                    {
-                        Guid = messageGuid,
-                        UserGuid = selfGuid,
-                        Content = message,
-                        ChatGuid = dbChatGuid,
-                        DateCreate = date
-                    };
-
-                    context.Message.Add(dbMessage);
-
-                    var messageStatus1 = new Db.MessageStatus
-                    {
-                        MessageGuid = messageGuid,
-                        IsRead = false,
-                        UserGuid = selfGuid
-                    };
-
-                    var messageStatus2 = new Db.MessageStatus
-                    {
-                        MessageGuid = messageGuid,
-                        IsRead = false,
-                        UserGuid = chatOrUserGuid
-                    };
-
-                    context.MessageStatus.Add(messageStatus1);
-                    context.MessageStatus.Add(messageStatus2);
-
-                    chatGuid = dbChatGuid;
                 }
 
                 await context.SaveChangesAsync();
-
-                return chatGuid;
             }
         }
         
@@ -314,6 +251,108 @@ namespace DbWorker
                 return history;
             }
 
+        }
+
+        public async Task CreateGroupChat(string chatName, Guid creatorGuid, List<Guid> userGuids)
+        {
+            using (var context = new MessengerContext())
+            {
+                var dbChatGuid = Guid.NewGuid();
+                var dbChat = new Db.Chat();
+                dbChat.UserGuid = creatorGuid;
+                dbChat.Name = chatName;
+                dbChat.Guid = dbChatGuid;
+                context.Chat.Add(dbChat);
+
+                foreach (var userGuid in userGuids)
+                {
+                    var dbParty = new Db.Party();
+                    dbParty.UserGuid = userGuid;
+                    dbParty.ChatGuid = dbChatGuid;
+                    context.Party.Add(dbParty);
+                }
+
+                var dbSelfParty = new Db.Party();
+                dbSelfParty.UserGuid = creatorGuid;
+                dbSelfParty.ChatGuid = dbChatGuid;
+                context.Party.Add(dbSelfParty);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task CreateChat(Guid userGuid, Guid creatorGuid)
+        {
+            using (var context = new MessengerContext())
+            {
+                Guid dbChatGuid = Guid.NewGuid();
+                Db.Chat dbChat = new Db.Chat
+                {
+                    Guid = dbChatGuid
+                };
+
+                context.Chat.Add(dbChat);
+
+                Db.Party party1 = new Db.Party
+                {
+                    ChatGuid = dbChatGuid,
+                    UserGuid = creatorGuid,
+                };
+
+                Db.Party party2 = new Db.Party
+                {
+                    ChatGuid = dbChatGuid,
+                    UserGuid = userGuid,
+                };
+
+                context.Party.Add(party1);
+                context.Party.Add(party2);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<Guid>> GetUserFromChat(Guid chatGuid)
+        {
+            using (var context = new MessengerContext())
+            {
+                var userChat = await context.Party.Where(x => x.ChatGuid == chatGuid).Select(x => x.UserGuid).ToListAsync();
+                return userChat;
+            }
+        }
+
+        public async Task<ResultBody> ChangePassword(Guid selfGuid, string oldPassword, string newPassword)
+        {
+            using (var context = new MessengerContext())
+            {
+                if (String.IsNullOrEmpty(newPassword))
+                {
+                    return new ResultBody{ ResultStatus = ResultStatus.NotSuccess, Message = "Пароль пуст!"};
+                }
+
+                var user = await context.User.SingleOrDefaultAsync(x => x.Guid == selfGuid);
+                if (user == null)
+                {
+                    return new ResultBody { ResultStatus = ResultStatus.NotSuccess, Message = "Пользователя с таким паролем не существует!" };
+                }
+
+                if (user.Password != oldPassword.HashPassword())
+                {
+                    return new ResultBody { ResultStatus = ResultStatus.NotSuccess, Message = "Старый пароль не совпадает!" };
+                }
+
+                var password = newPassword.HashPassword();
+                if (password == newPassword)
+                {
+                    return new ResultBody { ResultStatus = ResultStatus.NotSuccess, Message = "Новый пароль совпадает с новым!" };
+                }
+
+                user.Password = password;
+
+                await context.SaveChangesAsync();
+
+                return new ResultBody { ResultStatus = ResultStatus.Success };
+            }
         }
     }
 }

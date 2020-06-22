@@ -13,6 +13,11 @@ namespace ClientMessenger.Helpers
     {
         public static BitmapImage ByteToImageSource(byte[] data)
         {
+            if (data == null)
+            {
+                return null;
+            }
+
             using (MemoryStream byteStream = new MemoryStream(data))
             {
                 BitmapImage image = new BitmapImage();

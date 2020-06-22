@@ -29,7 +29,7 @@ namespace ClientMessenger.ViewModels
             set
             {
                 _control = value;
-                OnPropertyChanged("Control");
+                OnPropertyChanged();
             }
         }
 
