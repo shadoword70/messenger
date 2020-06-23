@@ -88,6 +88,19 @@ namespace ClientMessenger.ViewModels
             }
         }
 
+        private string _searchMessageText;
+        public string SearchMessageText
+        {
+            get { return _searchMessageText; }
+            set
+            {
+                _searchMessageText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        
+
         public string NewMessage
         {
             get { return MessengerData.NewMessage; }
@@ -535,6 +548,42 @@ namespace ClientMessenger.ViewModels
                     if (window.ShowDialog() == true)
                     {
 
+                    }
+                }));
+            }
+        }
+
+        private ICommand _searchMessage;
+        public ICommand SearchMessage
+        {
+            get
+            {
+                return _searchMessage ?? (_searchMessage = new BaseButtonCommand((obj) =>
+                {
+                    if (obj is ListBox listBox)
+                    {
+                        if (!String.IsNullOrEmpty(SearchMessageText))
+                        {
+                            for (int i = listBox.Items.Count - 1; i >= 0; i--)
+                            {
+                                if (listBox.Items[i] is MessengerModel item)
+                                {
+                                    if (item.Message.ToLower().Contains(SearchMessageText.ToLower()))
+                                    {
+                                        listBox.ScrollIntoView(listBox.Items[i]);
+                                        listBox.SelectedItem = listBox.Items[i];
+                                        listBox.UpdateLayout();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            listBox.ScrollIntoView(listBox.Items[listBox.Items.Count - 1]);
+                            listBox.SelectedItem = null;
+                            listBox.UpdateLayout();
+                        }
                     }
                 }));
             }

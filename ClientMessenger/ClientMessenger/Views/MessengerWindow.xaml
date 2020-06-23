@@ -62,7 +62,11 @@
             </Grid>
             <StackPanel Grid.Column="1">
                 <local:SettingsControl VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                <TextBox Style="{StaticResource CustomTextBox}" Width="200" HorizontalAlignment="Right" Margin="0 20 0 0"></TextBox>
+                <TextBox Style="{StaticResource CustomTextBox}" Text="{Binding SearchMessageText, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Right" Margin="0 20 0 0">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchMessage}" CommandParameter="{Binding ElementName=MessageListBox}"></KeyBinding>
+                    </TextBox.InputBindings>
+                </TextBox>
             </StackPanel>
         </Grid>
 
@@ -129,8 +133,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Row="0" MinWidth="430" MinHeight="210" ItemsSource="{Binding MessengerModels}" ItemContainerStyle="{StaticResource CustomListBoxItem}" Style="{StaticResource CustomMessageListBox}" 
-                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#18191d" ScrollViewer.CanContentScroll="False">
+                <ListBox Grid.Row="0" x:Name="MessageListBox" MinWidth="430" MinHeight="210" ItemsSource="{Binding MessengerModels}" ItemContainerStyle="{StaticResource CustomListBoxItem}" Style="{StaticResource CustomMessageListBox}" 
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#18191d">
                     <i:Interaction.Behaviors>
                         <behaviors:ScrollIntoViewBehavior/>
                     </i:Interaction.Behaviors>
