@@ -69,3 +69,7 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\FontAwesome.WPF.xml
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\ServerMessenger_Content.g.cs
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\Microsoft.Expression.Interactions.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\System.Windows.Interactivity.dll
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\Microsoft.Expression.Interactions.xml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ServerMessenger\ServerMessenger\bin\Release\System.Windows.Interactivity.xml

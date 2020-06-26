@@ -43,3 +43,7 @@ C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenge
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\AuthorizationControl.baml
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\SettingsControl.g.cs
 C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\SettingsControl.baml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\ChangePasswordWindow.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\CreateGroupChatWindow.g.cs
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\ChangePasswordWindow.baml
+C:\Users\maxwo\Source\Repos\shadoword70\messenger\ClientMessenger\ClientMessenger\obj\Release\Views\CreateGroupChatWindow.baml

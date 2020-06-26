@@ -511,7 +511,7 @@ namespace ClientMessenger.ViewModels
                             return;
                         }
 
-                        Chats.Clear();
+                        Chats.Clear(); 
                         var similarUsers = _users.Where(x => x.FullName.ToLower().Contains(SearchUserText.ToLower()) && x.Guid != CurrentUser.Guid).ToList();
                         foreach (var similarUser in similarUsers)
                         {

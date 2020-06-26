@@ -66,6 +66,12 @@ namespace ClientMessenger.ViewModels
                 {
                     if (o is ListBox usersListBox)
                     {
+                        if (String.IsNullOrEmpty(Model.ChatName))
+                        {
+                            MessageBox.Show("Введите название чата");
+                            return;
+                        }
+
                         if (usersListBox.SelectedItems.Count == 0)
                         {
                             MessageBox.Show("Выберите участников группового чата!");

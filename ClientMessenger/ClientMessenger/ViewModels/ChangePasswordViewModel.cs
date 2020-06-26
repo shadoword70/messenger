@@ -53,41 +53,44 @@ namespace ClientMessenger.ViewModels
             {
                 return _changePassword ?? (_changePassword = new BaseButtonCommand(async (obj) =>
                 {
-                    if (String.IsNullOrEmpty(Model.OldPassword))
+                    if (obj is PasswordElements model)
                     {
-                        MessageBox.Show("Поле пусто!");
-                        return;
-                    }
+                        if (String.IsNullOrEmpty(model.OldPassword.Password))
+                        {
+                            MessageBox.Show("Поле пусто!");
+                            return;
+                        }
 
-                    if (String.IsNullOrEmpty(Model.NewPassword))
-                    {
-                        MessageBox.Show("Поле пусто!");
-                        return;
-                    }
+                        if (String.IsNullOrEmpty(model.NewPassword.Password))
+                        {
+                            MessageBox.Show("Поле пусто!");
+                            return;
+                        }
 
-                    if (String.IsNullOrEmpty(Model.RepeatNewPassword))
-                    {
-                        MessageBox.Show("Поле пусто!");
-                        return;
-                    }
+                        if (String.IsNullOrEmpty(model.RepeatNewPassword.Password))
+                        {
+                            MessageBox.Show("Поле пусто!");
+                            return;
+                        }
 
-                    if (Model.NewPassword != Model.RepeatNewPassword)
-                    {
-                        MessageBox.Show("Пароли не совпадают!");
-                        return;
-                    }
+                        if (model.NewPassword.Password != model.RepeatNewPassword.Password)
+                        {
+                            MessageBox.Show("Пароли не совпадают!");
+                            return;
+                        }
 
-                    var worker = DIFactory.Resolve<IServiceManager>();
-                    var result = await worker.ChangePassword(_selfGuid, Model.OldPassword, Model.NewPassword);
-                    if (result.ResultStatus == ResultStatus.NotSuccess)
-                    {
-                        MessageBox.Show(result.Message);
+                        var worker = DIFactory.Resolve<IServiceManager>();
+                        var result = await worker.ChangePassword(_selfGuid, model.OldPassword.Password, model.NewPassword.Password);
+                        if (result.ResultStatus == ResultStatus.NotSuccess)
+                        {
+                            MessageBox.Show(result.Message);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пароль успешно изменен!");
+                            CloseWindow?.Invoke(this, EventArgs.Empty);
+                        }
                     }
-                    else
-                    {
-                        CloseWindow?.Invoke(this, EventArgs.Empty);
-                    }
-
                 }));
             }
         }
